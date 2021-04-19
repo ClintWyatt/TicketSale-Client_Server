@@ -11,6 +11,17 @@
 
 using boost::asio::ip::tcp;
 
+/*
+std::enable_shared_from_this allows an object t that is currently managed by a std::shared_ptr 
+named pt to safely generate additional std::shared_ptr instances pt1, pt2, ... that all share 
+ownership of t with pt.
+
+Publicly inheriting from std::enable_shared_from_this<T> provides the type T with a member
+function shared_from_this. If an object t of type T is managed by a std::shared_ptr<T> 
+named pt, then calling T::shared_from_this will return a new std::shared_ptr<T> that shares 
+ownership of t with pt.
+*/
+
 class CustomerSession : public Customer, public std::enable_shared_from_this<CustomerSession>
 {
 public:
@@ -60,7 +71,8 @@ private:
 	*/
 	void recieveResponse(std::string response_);
 	bool setUdpSock = false;
-	unsigned short udpSkt;
+	unsigned short udpSkt;//represents the client's udp socket. When the client leaves, the udp socket will be reomoved from a set of udp sockets
+	char ipAddress[20];
 	char buff[32];
 	std::string status;
 	tcp::socket socket_;
