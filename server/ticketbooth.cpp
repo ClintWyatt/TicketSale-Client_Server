@@ -1,5 +1,13 @@
 #include "ticketbooth.h"
 
+/// <summary>
+/// Method accepts a shared pointer from the customer session class and
+/// uses the customer_ptr (typedef std::shared_ptr<Customer> customer_ptr)
+/// as a base class shared ptr to accept the shared pointer from the 
+/// customer session class. The shared pointer is then inserted 
+/// into a set of customers (std::set<customer_ptr> customers).
+/// </summary>
+/// <param name="ptr"></param>
 void TicketBooth::join(customer_ptr ptr)
 {
 	customers.insert(ptr);//add the customer to the line
