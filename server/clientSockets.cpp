@@ -5,7 +5,7 @@ void UdpClientSockets::removeUdpSocket(unsigned short x)
 	//std::<unsigned short> iterator* it;
 	for (auto it = cliSockets.begin(); it != cliSockets.end(); ++it)
 	{
-		if (*it == x)
+		if (it->first == x)
 		{
 			cliSockets.erase(it);
 			break;
@@ -13,23 +13,29 @@ void UdpClientSockets::removeUdpSocket(unsigned short x)
 	}
 }
 
-void UdpClientSockets::addUdpSocket(unsigned short portNum)
+void UdpClientSockets::addClientInfo(unsigned short portNum, char ipAddress[])
 {
-	cliSockets.insert(portNum);
+	port_ip clientInfo;
+	clientInfo.first = portNum;
+	memcpy(clientInfo.second, ipAddress, sizeof(clientInfo.second));
+	cliSockets.insert(clientInfo);
 }
 
-unsigned short UdpClientSockets::getOtherUdpSocket(unsigned short x)
+
+void UdpClientSockets::otherClientInfo(port_ip& obj)
 {
-	std::set<unsigned short>::iterator it = cliSockets.begin();
+	port_ip otherClient;
+	std::set<port_ip>::iterator it = cliSockets.begin();
 	while (it != cliSockets.end())
 	{
-		if (x != *it)
+		if (obj.first != it->first)
 		{
-			x = *it;
+			obj.first = it->first;
+			memcpy(obj.second, it->second, sizeof(obj.second));
 			break;
 		}
+		*it++;
 	}
-	return x;
 }
 
 unsigned short UdpClientSockets::getNumSockets()
