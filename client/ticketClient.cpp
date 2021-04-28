@@ -1,18 +1,5 @@
 #include "ticketClient.h"
 
-
-struct connectCondition
-{
-	template<typename Iterator>
-	Iterator operator()(const boost::system::error_code ec,
-		Iterator next)
-	{
-		if (ec)std::cout << "Error: " << ec.message() << "\n";
-		std::cout << "Trying " << next->endpoint() << "\n";
-		return next;
-	}
-};
-
 TicketClient::TicketClient(boost::asio::io_service &io_service_, char* hostIp, char *portNum, char* ownIp) : io_service(io_service_), 
 socket(io_service_), resolver(io_service_), udpResolver(io_service_), signals(io_service_, SIGINT), timer(io_service_, boost::posix_time::seconds(1))
 {
@@ -93,10 +80,6 @@ void TicketClient::getTicket()
 	{
 		sprintf_s(buff, sizeof(buff), "%d", balance);
 	}
-	/*
-	boost::asio::write(socket, boost::asio::buffer(buff));
-	read();
-	*/
 	
 	boost::asio::async_write(socket, boost::asio::buffer(buff), [this](boost::system::error_code ec, std::size_t bytes_transfered) {
 		
