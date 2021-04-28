@@ -90,7 +90,7 @@ void CustomerSession::sendResponse(std::string response_)
 	{
 		int ticket = atoi(response_.data());//get the price of the ticket from the client
 		memset(buff, '\0', sizeof(buff));//reset the buffer. Prepare to put the ticket into the buffer
-		sprintf_s(buff, sizeof(buff), "%d", ticket);//send the udp socket of another client
+		snprintf(buff, sizeof(buff), "%d", ticket);//send the udp socket of another client
 		//write to the client and then listen for the client's next message with async read from line 80
 		auto self(shared_from_this());
 		boost::asio::async_write(socket_, boost::asio::buffer(buff), [this, self](boost::system::error_code ec, std::size_t) {
@@ -121,7 +121,7 @@ void CustomerSession::recieveResponse(std::string response_)
 	{
 		port_ip otherCli;
 		cliskts.otherClientInfo(otherCli);//get the udp socket from amother client
-		sprintf_s(buff, sizeof(buff), "%d %s", otherCli.first, otherCli.second);
+		snprintf(buff, sizeof(buff), "%d %s", otherCli.first, otherCli.second);
 		boost::asio::write(socket_, boost::asio::buffer(buff));//synchronous operation writing to the client
 	}
 	//only one client at the ticket booth

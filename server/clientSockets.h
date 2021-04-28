@@ -5,6 +5,7 @@
 #include <set>
 #include <utility>
 #include <algorithm>
+#include <string.h>
 
 typedef std::pair<unsigned short, char[16]> port_ip; 
 
