@@ -64,12 +64,4 @@ private:
 	boost::asio::signal_set signals;
 	char ownIP[20];
 };
-/*
-class UdpServer
-{
-
-};
-*/
 #endif // !H_TicketClient
-#pragma once
-#pragma once
