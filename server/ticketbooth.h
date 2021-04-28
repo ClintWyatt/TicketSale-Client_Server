@@ -57,4 +57,4 @@ private:
 	std::vector<unsigned short> ticketPrices;
 };
 
-#endif#pragma once
+#endif
