@@ -1,0 +1,36 @@
+
+
+table TicketSale {
+    money:short;
+    insuffieient_funds:bool;
+    ticket_number: short;
+}
+
+table ClientInfo {
+    ip_address:string;
+    udp_port:ushort;
+}
+
+table ResetTickets {
+    reset_event:bool = true;
+}
+
+table ScalperInfo {
+    //vector of addresses. Each index contains the ip address and udp port
+    //separated by ':'
+    scalper_address:[string];
+}
+
+table HelloWorld {
+    
+    message:string;
+    timestamp:long;
+}
+
+union MessageUnion {ClientInfo, TicketSale, ResetTickets, ScalperInfo, HelloWorld}
+
+//used to allow us to handle multiple different types of 
+//messages in 1 table
+table RootTable {
+    data:MessageUnion;
+}
