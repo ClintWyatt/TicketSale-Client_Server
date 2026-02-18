@@ -24,22 +24,22 @@ fn main() {
 
     for request_numb in 1..=10 {
         if request_numb < 2 {
-           buffer = generated::serialize_hello_world();
+           buffer = libs::serialize_hello_world();
            println!("Sending Hello message");
         }
         else if request_numb < 4 {
             let ip_address = "192.168.0.1".to_string();
             let port_number = 5555;
-           buffer = generated::serialize_client_info(&ip_address, port_number);
+           buffer = libs::serialize_client_info(&ip_address, port_number);
            println!("Sending client info");
         }
         else if request_numb < 6 {
-           buffer = generated::serialize_ticket_sale(20, 30);
+           buffer = libs::serialize_ticket_sale(20, 30);
            println!("Sending ticket sale");
         }
         else {
            let ip_addresses: Vec<String> = ["192.168.0.1:5555".to_string(), "192.168.0.2:5556".to_string()].to_vec();
-           buffer = generated::serialize_scalper_info(&ip_addresses);
+           buffer = libs::serialize_scalper_info(&ip_addresses);
            println!("Sending scalper mesage");
         }
         let send_result = requester.send(buffer, 0);
@@ -55,7 +55,7 @@ fn main() {
 
         //requester.recv(&mut msg, 0).unwrap();
         let received_msg = requester.recv_bytes(0).expect("Failed to receive");
-        generated::verify_root_table(&received_msg);
+        libs::verify_root_table(&received_msg);
         /*
         println!("received message: {:?}", Some(received_msg.message()));
         println!("received timestamp: {}", received_msg.timestamp());

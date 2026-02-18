@@ -77,10 +77,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "clinet"
+name = "client"
 version = "0.1.0"
 dependencies = [
- "generated",
+ "libs",
  "log",
  "zmq",
 ]
@@ -187,17 +187,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "generated"
-version = "0.1.0"
-dependencies = [
- "chrono",
- "flatbuffers",
- "log",
- "more-asserts",
- "zmq",
-]
-
-[[package]]
 name = "getrandom"
 version = "0.3.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -290,6 +279,17 @@ name = "libc"
 version = "0.2.180"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "bcc35a38544a891a5f7c865aca548a982ccb3b8650a5b06d0fd33a10283c56fc"
+
+[[package]]
+name = "libs"
+version = "0.1.0"
+dependencies = [
+ "chrono",
+ "flatbuffers",
+ "log",
+ "more-asserts",
+ "zmq",
+]
 
 [[package]]
 name = "log"

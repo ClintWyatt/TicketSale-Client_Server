@@ -2,7 +2,7 @@
 use std::thread;
 use std::time::Duration;
 use log::{info, warn};
-//use generated::helloworld_generated;
+//use libs::helloworld_generated;
 
 fn main() {
     let context = zmq::Context::new();
@@ -22,11 +22,11 @@ fn main() {
     let mut buffer: Vec<u8> = Vec::new();
     loop {
         let received_msg = responder.recv_bytes(0).expect("Failed to receive");
-        generated::verify_root_table(&received_msg); 
+        libs::verify_root_table(&received_msg); 
 
         thread::sleep(Duration::from_millis(1000));
 
-        let buffer = generated::serialize_hello_world();
+        let buffer = libs::serialize_hello_world();
         responder.send(buffer, 0).unwrap();
     }
 }

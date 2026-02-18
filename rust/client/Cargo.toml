@@ -1,9 +1,9 @@
 [package]
-name = "clinet"
+name = "client"
 version = "0.1.0"
 edition = "2024"
 
 [dependencies]
-generated = { version = "0.1.0", path = "../generated" }
+libs = { version = "0.1.0", path = "../libs" }
 log = "0.4.29"
 zmq = "0.10.0"
