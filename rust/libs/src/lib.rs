@@ -15,10 +15,11 @@ use crate::ticket_client_generated::HelloWorldArgs;
 use crate::ticket_client_generated::MessageUnion;
 use crate::ticket_client_generated::RootTable;
 use crate::ticket_client_generated::RootTableArgs;
-use crate::ticket_client_generated::TicketSaleArgs;
-use crate::ticket_client_generated::TicketSale;
-use crate::ticket_client_generated::ScalperInfoArgs;
 use crate::ticket_client_generated::ScalperInfo;
+use crate::ticket_client_generated::ScalperInfoArgs;
+use crate::ticket_client_generated::TicketSale;
+use crate::ticket_client_generated::TicketSaleArgs;
+use flatbuffers::InvalidFlatbuffer;
 
 pub fn serialize_hello_world() -> Vec<u8> {
     let mut builder = flatbuffers::FlatBufferBuilder::with_capacity(1024);
@@ -45,17 +46,16 @@ pub fn serialize_hello_world() -> Vec<u8> {
     buffer
 }
 
-pub fn serialize_scalper_info(ip_addresses: &Vec<String>) ->Vec<u8>{
+pub fn serialize_scalper_info(ip_addresses: &Vec<String>) -> Vec<u8> {
     let mut builder = flatbuffers::FlatBufferBuilder::with_capacity(1024);
 
-
-    let string_offsets: Vec<_> = ip_addresses 
+    let string_offsets: Vec<_> = ip_addresses
         .iter()
         .map(|s| builder.create_string(s))
         .collect();
     let ip_address_vector = builder.create_vector(&string_offsets);
 
-    let scalper_info_args = ScalperInfoArgs{
+    let scalper_info_args = ScalperInfoArgs {
         scalper_address: Some(ip_address_vector),
     };
 
@@ -72,10 +72,9 @@ pub fn serialize_scalper_info(ip_addresses: &Vec<String>) ->Vec<u8>{
     buffer
 }
 
-pub fn serialize_ticket_sale(funds: i16, ticket_num: i16) ->Vec<u8>{
-
+pub fn serialize_ticket_sale(funds: i16, ticket_num: i16) -> Vec<u8> {
     let mut builder = flatbuffers::FlatBufferBuilder::with_capacity(1024);
-    let ticket_sale_args = TicketSaleArgs{
+    let ticket_sale_args = TicketSaleArgs {
         money: funds,
         insuffieient_funds: false,
         ticket_number: ticket_num,
@@ -117,37 +116,54 @@ pub fn serialize_client_info(ip_address: &String, port: u16) -> Vec<u8> {
     buffer
 }
 
-pub fn deserialize_hello_world(msg: &zmq::Message) -> bool {
-    let buffer: &[u8] = &msg;
-
-    let mut success = true;
-
-    match flatbuffers::root::<HelloWorld>(buffer) {
-        Ok(valid_data) => match valid_data.message() {
-            Some(name) => {
-                println!("processed message is {}", name);
-                println!("Processed timestamp is {}", valid_data.timestamp());
+pub fn deserialize_hello_world(
+    flatbuffer_data: Result<RootTable<'_>, InvalidFlatbuffer>,
+) -> Option<HelloWorld<'_>> {
+    let hello_world = flatbuffer_data
+        .clone()
+        .expect("Failed to get initial hello world object");
+    let mut hello_world_return = hello_world.data_as_hello_world();
+    match flatbuffer_data {
+        Ok(root_data) => {
+            let inner_message = flatbuffer_data.expect("Failed to get buffer data");
+            //TODO -> need to use data_as_hello_world at the beginning of the method so that
+            //We can return a Hello World object
+            hello_world_return = inner_message.data_as_hello_world();
+            match hello_world_return {
+                Some(hello) => {
+                    println!("Received hello world message.");
+                    println!(
+                        "Message: {:?} - time stamp {}",
+                        hello.message(),
+                        hello.timestamp()
+                    );
+                }
+                None => {
+                    println!("Failed to hello world message");
+                }
             }
-            None => {
-                println!("Failed to process message field of HelloWorld");
-                success = false;
-            }
-        },
-        Err(error) => {
-            println!("Failed to parse hello world! {:?}", error);
-            success = false;
         }
-    };
-    success
+        Err(_) => {
+            println!("Error occured while deserializing hello world message");
+        }
+    }
+    hello_world_return
 }
 
-pub fn verify_root_table(buffer: &[u8]) {
+pub fn verify_root_table(
+    buffer: &[u8],
+) -> (Result<RootTable<'_>, InvalidFlatbuffer>, MessageUnion) {
+    let flatbuffer_root = flatbuffers::root::<RootTable>(buffer);
+    let mut message_type = MessageUnion::NONE;
 
-    match flatbuffers::root::<RootTable>(buffer) {
+    //match flatbuffers::root::<RootTable>(buffer) {
+    match flatbuffer_root {
         Ok(root_data) => match root_data.data_type() {
             MessageUnion::ClientInfo => {
+                message_type = MessageUnion::ClientInfo;
+                /*
                 let inner_message =
-                    flatbuffers::root::<RootTable>(buffer).expect("Failed to get buffer data");
+                    flatbuffer_root.expect("Failed to get buffer data");
                 let client_info = inner_message.data_as_client_info();
                 match client_info {
                     Some(client) => {
@@ -162,10 +178,13 @@ pub fn verify_root_table(buffer: &[u8]) {
                         println!("Failed to parse client info message");
                     }
                 }
+                */
             }
             MessageUnion::TicketSale => {
+                message_type = MessageUnion::TicketSale;
+                /*
                 let inner_message =
-                    flatbuffers::root::<RootTable>(buffer).expect("Failde to get buffer data");
+                    flatbuffer_root.expect("Failde to get buffer data");
                 let ticket_info = inner_message.data_as_ticket_sale();
                 match ticket_info {
                     Some(ticket) => {
@@ -181,10 +200,13 @@ pub fn verify_root_table(buffer: &[u8]) {
                         println!("Failed to parse ticket sale message");
                     }
                 }
+                */
             }
             MessageUnion::ScalperInfo => {
+                message_type = MessageUnion::ScalperInfo;
+                /*
                 let inner_message =
-                    flatbuffers::root::<RootTable>(buffer).expect("Failed to get buffer data");
+                    flatbuffer_root.expect("Failed to get buffer data");
                 let scalper_info = inner_message.data_as_scalper_info();
                 match scalper_info {
                     Some(scalper) => {
@@ -195,30 +217,19 @@ pub fn verify_root_table(buffer: &[u8]) {
                         println!("Failed to parse ticket sale message");
                     }
                 }
+                */
             }
             MessageUnion::HelloWorld => {
-                let inner_message =
-                    flatbuffers::root::<RootTable>(buffer).expect("Failed to get buffer data");
-                let hello_msg = inner_message.data_as_hello_world();
-                match hello_msg {
-                    Some(hello) => {
-                        println!("Received hello world message.");
-                        println!(
-                            "Message: {:?} - time stamp {}",
-                            Some(hello.message()),
-                            hello.timestamp()
-                        );
-                    }
-                    None => {
-                        println!("Failed to hello world message");
-                    }
-                }
+                message_type = MessageUnion::HelloWorld;
             }
             MessageUnion::ResetTickets => {
+                message_type = MessageUnion::HelloWorld;
+                /*
                 let inner_message =
-                    flatbuffers::root::<RootTable>(buffer).expect("Failde to get buffer data");
+                    flatbuffer_root.expect("Failde to get buffer data");
                 let client_info = inner_message.data_as_reset_tickets();
                 println!("received reset tickets message");
+                */
             }
             MessageUnion::NONE => {
                 println!("received unknown message message");
@@ -227,10 +238,12 @@ pub fn verify_root_table(buffer: &[u8]) {
                 println!("Received invalid enum");
             }
         },
-        Err(error) => {
+        Err(ref error) => {
             println!("Failed to parse message! {:?}", error);
         }
     }
+
+    (flatbuffer_root, message_type)
 }
 
 #[cfg(test)]
@@ -265,16 +278,51 @@ mod tests {
         let port = 12345;
         let buffer = serialize_client_info(&ip_address, port);
 
-        verify_root_table(&buffer);
+        let (root_buffer, message_type) = verify_root_table(&buffer);
+        assert_eq!(message_type, MessageUnion::ClientInfo);
 
         let buffer = serialize_hello_world();
-        verify_root_table(&buffer);
+        let (root_buffer, message_type) = verify_root_table(&buffer);
+        assert_eq!(message_type, MessageUnion::HelloWorld);
 
-        let ip_addresses: Vec<String> = ["192.168.0.1:5555".to_string(), "192.168.0.2:5556".to_string()].to_vec();
+        //TODO - need to create a method that will return
+        //the type of message that could be used, like a template.
+        //note that the root_buffer is valid if any of the message
+        //union types (except NONE). Just need to use the following line
+        //        let inner_message =
+        //            flatbuffer_root.expect("Failed to get buffer data");
+        match message_type {
+            MessageUnion::ClientInfo => {}
+            MessageUnion::HelloWorld => {
+                let msg = deserialize_hello_world(root_buffer);
+                match msg {
+                    Some(hello) => {
+                        assert_eq!(hello.message(), Some("Hello world!"));
+                    }
+                    None => {
+                        assert_eq!(1, 2);
+                    }
+
+                }
+            }
+            MessageUnion::ResetTickets => {}
+            MessageUnion::TicketSale => {}
+            MessageUnion::ScalperInfo => {}
+            MessageUnion::NONE => {}
+            _ => {}
+        }
+
+        let ip_addresses: Vec<String> = [
+            "192.168.0.1:5555".to_string(),
+            "192.168.0.2:5556".to_string(),
+        ]
+        .to_vec();
         let buffer = serialize_scalper_info(&ip_addresses);
-        verify_root_table(&buffer);
+        let (root_buffer, message_type) = verify_root_table(&buffer);
+        assert_eq!(message_type, MessageUnion::ScalperInfo);
 
         let buffer = serialize_ticket_sale(20, 30);
-        verify_root_table(&buffer);
+        let (root_buffer, message_type) = verify_root_table(&buffer);
+        assert_eq!(message_type, MessageUnion::TicketSale);
     }
 }
