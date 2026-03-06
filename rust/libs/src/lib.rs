@@ -119,10 +119,10 @@ pub fn serialize_client_info(ip_address: &String, port: u16) -> Vec<u8> {
 pub fn deserialize_hello_world(
     flatbuffer_data: Result<RootTable<'_>, InvalidFlatbuffer>,
 ) -> Option<HelloWorld<'_>> {
-    let hello_world = flatbuffer_data
+    let mut hello_world_return = flatbuffer_data
         .clone()
-        .expect("Failed to get initial hello world object");
-    let mut hello_world_return = hello_world.data_as_hello_world();
+        .expect("Failed to get flatbuffer data")
+        .data_as_hello_world();
     match flatbuffer_data {
         Ok(root_data) => {
             let inner_message = flatbuffer_data.expect("Failed to get buffer data");
@@ -148,6 +148,36 @@ pub fn deserialize_hello_world(
         }
     }
     hello_world_return
+}
+
+pub fn deserialize_scalper_info(
+    flatbuffer_data: Result<RootTable<'_>, InvalidFlatbuffer>,
+) -> Option<ScalperInfo<'_>> {
+    let mut scalper_info_return = flatbuffer_data
+        .clone()
+        .expect("Failed to get flatbuffer data")
+        .data_as_scalper_info();
+    match flatbuffer_data {
+        Ok(root_data) => {
+            let inner_message = flatbuffer_data.expect("Failed to get buffer data");
+            //TODO -> need to use data_as_hello_world at the beginning of the method so that
+            //We can return a Hello World object
+            scalper_info_return = inner_message.data_as_scalper_info();
+            match scalper_info_return {
+                Some(scalper) => {
+                    println!("scalper info message.");
+                    println!("ip addressed: {:?}", scalper.scalper_address());
+                }
+                None => {
+                    println!("Failed to get scalper info message");
+                }
+            }
+        }
+        Err(_) => {
+            println!("Error occured while deserializing scalper info message");
+        }
+    }
+    scalper_info_return
 }
 
 pub fn verify_root_table(
@@ -266,10 +296,6 @@ mod tests {
         //convert the bytes to a zmq message
         let message: zmq::Message = (&result[..]).into();
         verify_root_table(&message);
-
-        //let hello_world = deserialize_hello_world(&message);
-        //assert_eq!(hello_world.message(), Some("Hello world!"));
-        //assert_ge!(hello_world.timestamp(), time_stamp);
     }
 
     #[test]
@@ -280,37 +306,26 @@ mod tests {
 
         let (root_buffer, message_type) = verify_root_table(&buffer);
         assert_eq!(message_type, MessageUnion::ClientInfo);
+    }
 
+    #[test]
+    fn test_hello_world_serialize_and_deserialize(){
         let buffer = serialize_hello_world();
         let (root_buffer, message_type) = verify_root_table(&buffer);
         assert_eq!(message_type, MessageUnion::HelloWorld);
-
-        //TODO - need to create a method that will return
-        //the type of message that could be used, like a template.
-        //note that the root_buffer is valid if any of the message
-        //union types (except NONE). Just need to use the following line
-        //        let inner_message =
-        //            flatbuffer_root.expect("Failed to get buffer data");
-        match message_type {
-            MessageUnion::ClientInfo => {}
-            MessageUnion::HelloWorld => {
-                let msg = deserialize_hello_world(root_buffer);
-                match msg {
-                    Some(hello) => {
-                        assert_eq!(hello.message(), Some("Hello world!"));
-                    }
-                    None => {
-                        assert_eq!(1, 2);
-                    }
-
-                }
+        let msg = deserialize_hello_world(root_buffer);
+        match msg {
+            Some(hello) => {
+                assert_eq!(hello.message(), Some("Hello world!"));
             }
-            MessageUnion::ResetTickets => {}
-            MessageUnion::TicketSale => {}
-            MessageUnion::ScalperInfo => {}
-            MessageUnion::NONE => {}
-            _ => {}
+            None => {
+                assert_eq!(1, 2, "Failed to deserialize hello world!");
+            }
         }
+    }
+
+    #[test]
+    fn test_scalper_info_serialize_and_deserialize(){
 
         let ip_addresses: Vec<String> = [
             "192.168.0.1:5555".to_string(),
@@ -320,6 +335,23 @@ mod tests {
         let buffer = serialize_scalper_info(&ip_addresses);
         let (root_buffer, message_type) = verify_root_table(&buffer);
         assert_eq!(message_type, MessageUnion::ScalperInfo);
+        let msg = deserialize_scalper_info(root_buffer);
+        match msg {
+            Some(scalper_info) => match scalper_info.scalper_address() {
+                Some(scalper_addresses) => {
+                    assert_eq!(scalper_addresses.len(), ip_addresses.len());
+                    for (index, item) in ip_addresses.iter().enumerate() {
+                        assert_eq!(item, scalper_addresses.get(index));
+                    }
+                }
+                None => {
+                    assert_eq!(1, 2, "Failed to deserialize scalper info!");
+                }
+            },
+            None => {
+                assert_eq!(1, 2, "Failed to deserialize scalper info!");
+            }
+        }
 
         let buffer = serialize_ticket_sale(20, 30);
         let (root_buffer, message_type) = verify_root_table(&buffer);
