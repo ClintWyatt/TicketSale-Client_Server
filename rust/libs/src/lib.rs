@@ -422,20 +422,19 @@ mod tests {
 
     #[test]
     fn test_reset_ticket_serialize_and_deserialize() {
-        /*
-        let buffer = serialize_ticket_sale(money, ticket_number);
+        let reset_event_flag = true;
+        let buffer = serialize_reset_tickets(reset_event_flag);
         let (root_buffer, message_type) = verify_root_table(&buffer);
-        assert_eq!(message_type, MessageUnion::TicketSale);
-        let msg = deserialize_ticket_sale(root_buffer);
-        match msg {
-            Some(ticket_sale) => {
-                assert_eq!(ticket_sale.money(), money);
-                assert_eq!(ticket_sale.ticket_number(), ticket_number);
+        assert_eq!(message_type, MessageUnion::ResetTickets);
+
+        let msg = deserialize_reset_tickets(root_buffer);
+        match msg{
+            Some(reset_tickets) => {
+                assert_eq!(reset_tickets.reset_event(), reset_event_flag);
             }
             None => {
-                assert_eq!(1, 2, "Failed to deserialize scalper info!");
+                assert_eq!(1, 2, "Failed to deserialize reset ticktes message!");
             }
         }
-        */
     }
 }
