@@ -13,6 +13,8 @@ use crate::ticket_client_generated::ClientInfoArgs;
 use crate::ticket_client_generated::HelloWorld;
 use crate::ticket_client_generated::HelloWorldArgs;
 use crate::ticket_client_generated::MessageUnion;
+use crate::ticket_client_generated::ResetTickets;
+use crate::ticket_client_generated::ResetTicketsArgs;
 use crate::ticket_client_generated::RootTable;
 use crate::ticket_client_generated::RootTableArgs;
 use crate::ticket_client_generated::ScalperInfo;
@@ -64,6 +66,26 @@ pub fn serialize_scalper_info(ip_addresses: &Vec<String>) -> Vec<u8> {
     let root_table_args = RootTableArgs {
         data_type: MessageUnion::ScalperInfo,
         data: Some(scalper_info_offset.as_union_value()),
+    };
+
+    let root_table_offset = RootTable::create(&mut builder, &root_table_args);
+    builder.finish(root_table_offset, None);
+    let buffer = builder.finished_data().to_vec();
+    buffer
+}
+
+pub fn serialize_reset_tickets(reset_event_flag: bool) -> Vec<u8> {
+    let mut builder = flatbuffers::FlatBufferBuilder::with_capacity(1024);
+
+    let reset_tickets_args = ResetTicketsArgs {
+        reset_event: reset_event_flag,
+    };
+
+    let reset_ticket_offset = ResetTickets::create(&mut builder, &reset_tickets_args);
+
+    let root_table_args = RootTableArgs {
+        data_type: MessageUnion::ResetTickets,
+        data: Some(reset_ticket_offset.as_union_value()),
     };
 
     let root_table_offset = RootTable::create(&mut builder, &root_table_args);
@@ -174,12 +196,12 @@ pub fn deserialize_ticket_sale(
                     );
                 }
                 None => {
-                    println!("Failed to get scalper info message");
+                    println!("Failed to get ticket sale message");
                 }
             }
         }
         Err(_) => {
-            println!("Error occured while deserializing scalper info message");
+            println!("Error occured while deserializing ticket sale message");
         }
     }
     ticket_sale_return
@@ -213,6 +235,36 @@ pub fn deserialize_scalper_info(
         }
     }
     scalper_info_return
+}
+
+pub fn deserialize_reset_tickets(
+    flatbuffer_data: Result<RootTable<'_>, InvalidFlatbuffer>,
+) -> Option<ResetTickets<'_>> {
+    let mut reset_tickets_return = flatbuffer_data
+        .clone()
+        .expect("Failed to get flatbuffer data")
+        .data_as_reset_tickets();
+    match flatbuffer_data {
+        Ok(root_data) => {
+            let inner_message = flatbuffer_data.expect("Failed to get buffer data");
+            //TODO -> need to use data_as_hello_world at the beginning of the method so that
+            //We can return a Hello World object
+            reset_tickets_return = inner_message.data_as_reset_tickets();
+            match reset_tickets_return {
+                Some(reset_tickets) => {
+                    println!("Ticket reset message.");
+                    println!("reset event: {:?}", reset_tickets.reset_event());
+                }
+                None => {
+                    println!("Failed to get reset tickets message");
+                }
+            }
+        }
+        Err(_) => {
+            println!("Error occured while deserializing reset tickets message");
+        }
+    }
+    reset_tickets_return
 }
 
 pub fn verify_root_table(
@@ -255,13 +307,7 @@ pub fn verify_root_table(
                 message_type = MessageUnion::HelloWorld;
             }
             MessageUnion::ResetTickets => {
-                message_type = MessageUnion::HelloWorld;
-                /*
-                let inner_message =
-                    flatbuffer_root.expect("Failde to get buffer data");
-                let client_info = inner_message.data_as_reset_tickets();
-                println!("received reset tickets message");
-                */
+                message_type = MessageUnion::ResetTickets;
             }
             MessageUnion::NONE => {
                 println!("received unknown message message");
@@ -372,5 +418,24 @@ mod tests {
                 assert_eq!(1, 2, "Failed to deserialize scalper info!");
             }
         }
+    }
+
+    #[test]
+    fn test_reset_ticket_serialize_and_deserialize() {
+        /*
+        let buffer = serialize_ticket_sale(money, ticket_number);
+        let (root_buffer, message_type) = verify_root_table(&buffer);
+        assert_eq!(message_type, MessageUnion::TicketSale);
+        let msg = deserialize_ticket_sale(root_buffer);
+        match msg {
+            Some(ticket_sale) => {
+                assert_eq!(ticket_sale.money(), money);
+                assert_eq!(ticket_sale.ticket_number(), ticket_number);
+            }
+            None => {
+                assert_eq!(1, 2, "Failed to deserialize scalper info!");
+            }
+        }
+        */
     }
 }
