@@ -150,6 +150,41 @@ pub fn deserialize_hello_world(
     hello_world_return
 }
 
+pub fn deserialize_ticket_sale(
+    flatbuffer_data: Result<RootTable<'_>, InvalidFlatbuffer>,
+) -> Option<TicketSale<'_>> {
+    let mut ticket_sale_return = flatbuffer_data
+        .clone()
+        .expect("Failed to get flatbuffer data")
+        .data_as_ticket_sale();
+    match flatbuffer_data {
+        Ok(root_data) => {
+            let inner_message = flatbuffer_data.expect("Failed to get buffer data");
+            //TODO -> need to use data_as_hello_world at the beginning of the method so that
+            //We can return a Hello World object
+            ticket_sale_return = inner_message.data_as_ticket_sale();
+            match ticket_sale_return {
+                Some(ticket_sale) => {
+                    println!("Ticket sale message.");
+                    println!(
+                        "Money {} || funds {} || ticket number {}",
+                        ticket_sale.money(),
+                        ticket_sale.insuffieient_funds(),
+                        ticket_sale.ticket_number()
+                    );
+                }
+                None => {
+                    println!("Failed to get scalper info message");
+                }
+            }
+        }
+        Err(_) => {
+            println!("Error occured while deserializing scalper info message");
+        }
+    }
+    ticket_sale_return
+}
+
 pub fn deserialize_scalper_info(
     flatbuffer_data: Result<RootTable<'_>, InvalidFlatbuffer>,
 ) -> Option<ScalperInfo<'_>> {
@@ -212,42 +247,9 @@ pub fn verify_root_table(
             }
             MessageUnion::TicketSale => {
                 message_type = MessageUnion::TicketSale;
-                /*
-                let inner_message =
-                    flatbuffer_root.expect("Failde to get buffer data");
-                let ticket_info = inner_message.data_as_ticket_sale();
-                match ticket_info {
-                    Some(ticket) => {
-                        println!("received ticket sale message");
-                        println!(
-                            "Funds: {} - can buy: {} - ticket number: {}",
-                            ticket.money(),
-                            ticket.insuffieient_funds(),
-                            ticket.ticket_number()
-                        );
-                    }
-                    None => {
-                        println!("Failed to parse ticket sale message");
-                    }
-                }
-                */
             }
             MessageUnion::ScalperInfo => {
                 message_type = MessageUnion::ScalperInfo;
-                /*
-                let inner_message =
-                    flatbuffer_root.expect("Failed to get buffer data");
-                let scalper_info = inner_message.data_as_scalper_info();
-                match scalper_info {
-                    Some(scalper) => {
-                        println!("received scalper info message");
-                        println!("Ip addresses: {:?}", scalper.scalper_address());
-                    }
-                    None => {
-                        println!("Failed to parse ticket sale message");
-                    }
-                }
-                */
             }
             MessageUnion::HelloWorld => {
                 message_type = MessageUnion::HelloWorld;
@@ -309,7 +311,7 @@ mod tests {
     }
 
     #[test]
-    fn test_hello_world_serialize_and_deserialize(){
+    fn test_hello_world_serialize_and_deserialize() {
         let buffer = serialize_hello_world();
         let (root_buffer, message_type) = verify_root_table(&buffer);
         assert_eq!(message_type, MessageUnion::HelloWorld);
@@ -325,8 +327,7 @@ mod tests {
     }
 
     #[test]
-    fn test_scalper_info_serialize_and_deserialize(){
-
+    fn test_scalper_info_serialize_and_deserialize() {
         let ip_addresses: Vec<String> = [
             "192.168.0.1:5555".to_string(),
             "192.168.0.2:5556".to_string(),
@@ -352,9 +353,24 @@ mod tests {
                 assert_eq!(1, 2, "Failed to deserialize scalper info!");
             }
         }
+    }
 
-        let buffer = serialize_ticket_sale(20, 30);
+    #[test]
+    fn test_ticket_sale_serialize_and_deserialize() {
+        let money = 20;
+        let ticket_number = 30;
+        let buffer = serialize_ticket_sale(money, ticket_number);
         let (root_buffer, message_type) = verify_root_table(&buffer);
         assert_eq!(message_type, MessageUnion::TicketSale);
+        let msg = deserialize_ticket_sale(root_buffer);
+        match msg {
+            Some(ticket_sale) => {
+                assert_eq!(ticket_sale.money(), money);
+                assert_eq!(ticket_sale.ticket_number(), ticket_number);
+            }
+            None => {
+                assert_eq!(1, 2, "Failed to deserialize scalper info!");
+            }
+        }
     }
 }
