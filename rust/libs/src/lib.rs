@@ -139,15 +139,9 @@ pub fn serialize_client_info(ip_address: &String, port: u16) -> Vec<u8> {
 pub fn deserialize_hello_world(
     flatbuffer_data: Result<RootTable<'_>, InvalidFlatbuffer>,
 ) -> Option<HelloWorld<'_>> {
-    let mut hello_world_return = flatbuffer_data
-        .clone()
-        .expect("Failed to get flatbuffer data")
-        .data_as_hello_world();
-    match flatbuffer_data {
-        Ok(_) => {
-            let inner_message = flatbuffer_data.expect("Failed to get buffer data");
-            //TODO -> need to use data_as_hello_world at the beginning of the method so that
-            //We can return a Hello World object
+    let mut hello_world_return: Option<HelloWorld> = None;
+    match flatbuffer_data.clone() {
+        Ok(inner_message) => {
             hello_world_return = inner_message.data_as_hello_world();
             match hello_world_return {
                 Some(hello) => {
@@ -173,13 +167,9 @@ pub fn deserialize_hello_world(
 pub fn deserialize_ticket_sale(
     flatbuffer_data: Result<RootTable<'_>, InvalidFlatbuffer>,
 ) -> Option<TicketSale<'_>> {
-    let mut ticket_sale_return = flatbuffer_data
-        .clone()
-        .expect("Failed to get flatbuffer data")
-        .data_as_ticket_sale();
-    match flatbuffer_data {
-        Ok(_) => {
-            let inner_message = flatbuffer_data.expect("Failed to get buffer data");
+    let mut ticket_sale_return: Option<TicketSale> = None;
+    match flatbuffer_data.clone() {
+        Ok(inner_message) => {
             ticket_sale_return = inner_message.data_as_ticket_sale();
             match ticket_sale_return {
                 Some(ticket_sale) => {
