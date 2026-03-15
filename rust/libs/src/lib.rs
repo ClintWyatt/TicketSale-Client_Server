@@ -144,7 +144,7 @@ pub fn deserialize_hello_world(
         .expect("Failed to get flatbuffer data")
         .data_as_hello_world();
     match flatbuffer_data {
-        Ok(root_data) => {
+        Ok(_) => {
             let inner_message = flatbuffer_data.expect("Failed to get buffer data");
             //TODO -> need to use data_as_hello_world at the beginning of the method so that
             //We can return a Hello World object
@@ -178,7 +178,7 @@ pub fn deserialize_ticket_sale(
         .expect("Failed to get flatbuffer data")
         .data_as_ticket_sale();
     match flatbuffer_data {
-        Ok(root_data) => {
+        Ok(_) => {
             let inner_message = flatbuffer_data.expect("Failed to get buffer data");
             ticket_sale_return = inner_message.data_as_ticket_sale();
             match ticket_sale_return {
@@ -211,7 +211,7 @@ pub fn deserialize_scalper_info(
         .expect("Failed to get flatbuffer data")
         .data_as_scalper_info();
     match flatbuffer_data {
-        Ok(root_data) => {
+        Ok(_) => {
             let inner_message = flatbuffer_data.expect("Failed to get buffer data");
             scalper_info_return = inner_message.data_as_scalper_info();
             match scalper_info_return {
@@ -239,7 +239,7 @@ pub fn deserialize_reset_tickets(
         .expect("Failed to get flatbuffer data")
         .data_as_reset_tickets();
     match flatbuffer_data {
-        Ok(root_data) => {
+        Ok(_) => {
             let inner_message = flatbuffer_data.expect("Failed to get buffer data");
             reset_tickets_return = inner_message.data_as_reset_tickets();
             match reset_tickets_return {
@@ -263,13 +263,9 @@ pub fn deserialize_client_info(
     flatbuffer_data: Result<RootTable<'_>, InvalidFlatbuffer>,
 ) -> Option<ClientInfo<'_>> {
 
-    let mut client_info_return = flatbuffer_data
-        .clone()
-        .expect("Failed to get flatbuffer data")
-        .data_as_client_info();
-    match flatbuffer_data {
-        Ok(root_data) => {
-            let inner_message = flatbuffer_data.expect("Failed to get buffer data");
+    let mut client_info_return: Option<ClientInfo> = None;
+    match flatbuffer_data.clone() {
+        Ok(inner_message) => {
             client_info_return = inner_message.data_as_client_info();
             match client_info_return {
                 Some(client_info) => {
