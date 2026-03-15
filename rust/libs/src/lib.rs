@@ -206,13 +206,9 @@ pub fn deserialize_ticket_sale(
 pub fn deserialize_scalper_info(
     flatbuffer_data: Result<RootTable<'_>, InvalidFlatbuffer>,
 ) -> Option<ScalperInfo<'_>> {
-    let mut scalper_info_return = flatbuffer_data
-        .clone()
-        .expect("Failed to get flatbuffer data")
-        .data_as_scalper_info();
-    match flatbuffer_data {
-        Ok(_) => {
-            let inner_message = flatbuffer_data.expect("Failed to get buffer data");
+    let mut scalper_info_return: Option<ScalperInfo> = None; 
+    match flatbuffer_data.clone() {
+        Ok(inner_message) => {
             scalper_info_return = inner_message.data_as_scalper_info();
             match scalper_info_return {
                 Some(scalper) => {
@@ -234,13 +230,9 @@ pub fn deserialize_scalper_info(
 pub fn deserialize_reset_tickets(
     flatbuffer_data: Result<RootTable<'_>, InvalidFlatbuffer>,
 ) -> Option<ResetTickets<'_>> {
-    let mut reset_tickets_return = flatbuffer_data
-        .clone()
-        .expect("Failed to get flatbuffer data")
-        .data_as_reset_tickets();
-    match flatbuffer_data {
-        Ok(_) => {
-            let inner_message = flatbuffer_data.expect("Failed to get buffer data");
+    let mut reset_tickets_return: Option<ResetTickets> = None; 
+    match flatbuffer_data.clone() {
+        Ok(inner_message) => {
             reset_tickets_return = inner_message.data_as_reset_tickets();
             match reset_tickets_return {
                 Some(reset_tickets) => {
