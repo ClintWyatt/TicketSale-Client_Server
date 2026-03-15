@@ -8,7 +8,7 @@ table TicketSale {
 
 table ClientInfo {
     ip_address:string;
-    udp_port:ushort;
+    port:ushort;
 }
 
 table ResetTickets {

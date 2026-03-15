@@ -120,12 +120,10 @@ pub fn serialize_client_info(ip_address: &String, port: u16) -> Vec<u8> {
 
     let client_info_args = ClientInfoArgs {
         ip_address: Some(client_ip),
-        udp_port: port,
+        port: port,
     };
 
     let client_info_offset = ClientInfo::create(&mut builder, &client_info_args);
-
-    //let union = ClientInfo{client_info_offset};
 
     let root_table_args = RootTableArgs {
         data_type: MessageUnion::ClientInfo,
@@ -182,8 +180,6 @@ pub fn deserialize_ticket_sale(
     match flatbuffer_data {
         Ok(root_data) => {
             let inner_message = flatbuffer_data.expect("Failed to get buffer data");
-            //TODO -> need to use data_as_hello_world at the beginning of the method so that
-            //We can return a Hello World object
             ticket_sale_return = inner_message.data_as_ticket_sale();
             match ticket_sale_return {
                 Some(ticket_sale) => {
@@ -217,8 +213,6 @@ pub fn deserialize_scalper_info(
     match flatbuffer_data {
         Ok(root_data) => {
             let inner_message = flatbuffer_data.expect("Failed to get buffer data");
-            //TODO -> need to use data_as_hello_world at the beginning of the method so that
-            //We can return a Hello World object
             scalper_info_return = inner_message.data_as_scalper_info();
             match scalper_info_return {
                 Some(scalper) => {
@@ -247,8 +241,6 @@ pub fn deserialize_reset_tickets(
     match flatbuffer_data {
         Ok(root_data) => {
             let inner_message = flatbuffer_data.expect("Failed to get buffer data");
-            //TODO -> need to use data_as_hello_world at the beginning of the method so that
-            //We can return a Hello World object
             reset_tickets_return = inner_message.data_as_reset_tickets();
             match reset_tickets_return {
                 Some(reset_tickets) => {
@@ -267,6 +259,36 @@ pub fn deserialize_reset_tickets(
     reset_tickets_return
 }
 
+pub fn deserialize_client_info(
+    flatbuffer_data: Result<RootTable<'_>, InvalidFlatbuffer>,
+) -> Option<ClientInfo<'_>> {
+
+    let mut client_info_return = flatbuffer_data
+        .clone()
+        .expect("Failed to get flatbuffer data")
+        .data_as_client_info();
+    match flatbuffer_data {
+        Ok(root_data) => {
+            let inner_message = flatbuffer_data.expect("Failed to get buffer data");
+            client_info_return = inner_message.data_as_client_info();
+            match client_info_return {
+                Some(client_info) => {
+                    println!("Client info message.");
+                    println!("Ip address: {:?}", Some(client_info.ip_address()));
+                    println!("Port number: {}", client_info.port());
+                }
+                None => {
+                    println!("Failed to get reset tickets message");
+                }
+            }
+        }
+        Err(_) => {
+            println!("Error occured while deserializing reset tickets message");
+        }
+    }
+    client_info_return 
+}
+
 pub fn verify_root_table(
     buffer: &[u8],
 ) -> (Result<RootTable<'_>, InvalidFlatbuffer>, MessageUnion) {
@@ -278,24 +300,6 @@ pub fn verify_root_table(
         Ok(root_data) => match root_data.data_type() {
             MessageUnion::ClientInfo => {
                 message_type = MessageUnion::ClientInfo;
-                /*
-                let inner_message =
-                    flatbuffer_root.expect("Failed to get buffer data");
-                let client_info = inner_message.data_as_client_info();
-                match client_info {
-                    Some(client) => {
-                        println!("received client info message");
-                        println!(
-                            "Ip address: {:?} - port: {}",
-                            client.ip_address(),
-                            client.udp_port()
-                        );
-                    }
-                    None => {
-                        println!("Failed to parse client info message");
-                    }
-                }
-                */
             }
             MessageUnion::TicketSale => {
                 message_type = MessageUnion::TicketSale;
@@ -436,5 +440,25 @@ mod tests {
                 assert_eq!(1, 2, "Failed to deserialize reset ticktes message!");
             }
         }
+    }
+
+    #[test]
+    fn test_client_info_serialize_and_deserialize() {
+        let ip_address = "192.168.0.1".to_string();
+        let port = 12345;
+        let buffer = serialize_client_info(&ip_address, port);
+        let (root_buffer, message_type) = verify_root_table(&buffer);
+        assert_eq!(message_type, MessageUnion::ClientInfo);
+
+        let msg = deserialize_client_info(root_buffer);
+        match msg{
+            Some(client_info) => {
+                assert_eq!(client_info.port(), port);
+            }
+            None => {
+                assert_eq!(1, 2, "Failed to deserialize reset ticktes message!");
+            }
+        }
+
     }
 }

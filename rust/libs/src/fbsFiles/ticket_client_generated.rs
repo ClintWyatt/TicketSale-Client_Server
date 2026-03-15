@@ -2,28 +2,20 @@
 // @generated
 extern crate alloc;
 
-#[deprecated(
-    since = "2.0.0",
-    note = "Use associated constants instead. This will no longer be generated in 2021."
-)]
+
+#[deprecated(since = "2.0.0", note = "Use associated constants instead. This will no longer be generated in 2021.")]
 pub const ENUM_MIN_MESSAGE_UNION: u8 = 0;
-#[deprecated(
-    since = "2.0.0",
-    note = "Use associated constants instead. This will no longer be generated in 2021."
-)]
+#[deprecated(since = "2.0.0", note = "Use associated constants instead. This will no longer be generated in 2021.")]
 pub const ENUM_MAX_MESSAGE_UNION: u8 = 5;
-#[deprecated(
-    since = "2.0.0",
-    note = "Use associated constants instead. This will no longer be generated in 2021."
-)]
+#[deprecated(since = "2.0.0", note = "Use associated constants instead. This will no longer be generated in 2021.")]
 #[allow(non_camel_case_types)]
 pub const ENUM_VALUES_MESSAGE_UNION: [MessageUnion; 6] = [
-    MessageUnion::NONE,
-    MessageUnion::ClientInfo,
-    MessageUnion::TicketSale,
-    MessageUnion::ResetTickets,
-    MessageUnion::ScalperInfo,
-    MessageUnion::HelloWorld,
+  MessageUnion::NONE,
+  MessageUnion::ClientInfo,
+  MessageUnion::TicketSale,
+  MessageUnion::ResetTickets,
+  MessageUnion::ScalperInfo,
+  MessageUnion::HelloWorld,
 ];
 
 #[derive(Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash, Default)]
@@ -31,52 +23,52 @@ pub const ENUM_VALUES_MESSAGE_UNION: [MessageUnion; 6] = [
 pub struct MessageUnion(pub u8);
 #[allow(non_upper_case_globals)]
 impl MessageUnion {
-    pub const NONE: Self = Self(0);
-    pub const ClientInfo: Self = Self(1);
-    pub const TicketSale: Self = Self(2);
-    pub const ResetTickets: Self = Self(3);
-    pub const ScalperInfo: Self = Self(4);
-    pub const HelloWorld: Self = Self(5);
+  pub const NONE: Self = Self(0);
+  pub const ClientInfo: Self = Self(1);
+  pub const TicketSale: Self = Self(2);
+  pub const ResetTickets: Self = Self(3);
+  pub const ScalperInfo: Self = Self(4);
+  pub const HelloWorld: Self = Self(5);
 
-    pub const ENUM_MIN: u8 = 0;
-    pub const ENUM_MAX: u8 = 5;
-    pub const ENUM_VALUES: &'static [Self] = &[
-        Self::NONE,
-        Self::ClientInfo,
-        Self::TicketSale,
-        Self::ResetTickets,
-        Self::ScalperInfo,
-        Self::HelloWorld,
-    ];
-    /// Returns the variant's name or "" if unknown.
-    pub fn variant_name(self) -> Option<&'static str> {
-        match self {
-            Self::NONE => Some("NONE"),
-            Self::ClientInfo => Some("ClientInfo"),
-            Self::TicketSale => Some("TicketSale"),
-            Self::ResetTickets => Some("ResetTickets"),
-            Self::ScalperInfo => Some("ScalperInfo"),
-            Self::HelloWorld => Some("HelloWorld"),
-            _ => None,
-        }
+  pub const ENUM_MIN: u8 = 0;
+  pub const ENUM_MAX: u8 = 5;
+  pub const ENUM_VALUES: &'static [Self] = &[
+    Self::NONE,
+    Self::ClientInfo,
+    Self::TicketSale,
+    Self::ResetTickets,
+    Self::ScalperInfo,
+    Self::HelloWorld,
+  ];
+  /// Returns the variant's name or "" if unknown.
+  pub fn variant_name(self) -> Option<&'static str> {
+    match self {
+      Self::NONE => Some("NONE"),
+      Self::ClientInfo => Some("ClientInfo"),
+      Self::TicketSale => Some("TicketSale"),
+      Self::ResetTickets => Some("ResetTickets"),
+      Self::ScalperInfo => Some("ScalperInfo"),
+      Self::HelloWorld => Some("HelloWorld"),
+      _ => None,
     }
+  }
 }
 impl ::core::fmt::Debug for MessageUnion {
-    fn fmt(&self, f: &mut ::core::fmt::Formatter) -> ::core::fmt::Result {
-        if let Some(name) = self.variant_name() {
-            f.write_str(name)
-        } else {
-            f.write_fmt(format_args!("<UNKNOWN {:?}>", self.0))
-        }
+  fn fmt(&self, f: &mut ::core::fmt::Formatter) -> ::core::fmt::Result {
+    if let Some(name) = self.variant_name() {
+      f.write_str(name)
+    } else {
+      f.write_fmt(format_args!("<UNKNOWN {:?}>", self.0))
     }
+  }
 }
 impl<'a> ::flatbuffers::Follow<'a> for MessageUnion {
-    type Inner = Self;
-    #[inline]
-    unsafe fn follow(buf: &'a [u8], loc: usize) -> Self::Inner {
-        let b = unsafe { ::flatbuffers::read_scalar_at::<u8>(buf, loc) };
-        Self(b)
-    }
+  type Inner = Self;
+  #[inline]
+  unsafe fn follow(buf: &'a [u8], loc: usize) -> Self::Inner {
+    let b = unsafe { ::flatbuffers::read_scalar_at::<u8>(buf, loc) };
+    Self(b)
+  }
 }
 
 impl ::flatbuffers::Push for MessageUnion {
@@ -88,27 +80,26 @@ impl ::flatbuffers::Push for MessageUnion {
 }
 
 impl ::flatbuffers::EndianScalar for MessageUnion {
-    type Scalar = u8;
-    #[inline]
-    fn to_little_endian(self) -> u8 {
-        self.0.to_le()
-    }
-    #[inline]
-    #[allow(clippy::wrong_self_convention)]
-    fn from_little_endian(v: u8) -> Self {
-        let b = u8::from_le(v);
-        Self(b)
-    }
+  type Scalar = u8;
+  #[inline]
+  fn to_little_endian(self) -> u8 {
+    self.0.to_le()
+  }
+  #[inline]
+  #[allow(clippy::wrong_self_convention)]
+  fn from_little_endian(v: u8) -> Self {
+    let b = u8::from_le(v);
+    Self(b)
+  }
 }
 
 impl<'a> ::flatbuffers::Verifiable for MessageUnion {
-    #[inline]
-    fn run_verifier(
-        v: &mut ::flatbuffers::Verifier,
-        pos: usize,
-    ) -> Result<(), ::flatbuffers::InvalidFlatbuffer> {
-        u8::run_verifier(v, pos)
-    }
+  #[inline]
+  fn run_verifier(
+    v: &mut ::flatbuffers::Verifier, pos: usize
+  ) -> Result<(), ::flatbuffers::InvalidFlatbuffer> {
+    u8::run_verifier(v, pos)
+  }
 }
 
 impl ::flatbuffers::SimpleToVerifyInSlice for MessageUnion {}
@@ -118,89 +109,74 @@ pub enum TicketSaleOffset {}
 #[derive(Copy, Clone, PartialEq)]
 
 pub struct TicketSale<'a> {
-    pub _tab: ::flatbuffers::Table<'a>,
+  pub _tab: ::flatbuffers::Table<'a>,
 }
 
 impl<'a> ::flatbuffers::Follow<'a> for TicketSale<'a> {
-    type Inner = TicketSale<'a>;
-    #[inline]
-    unsafe fn follow(buf: &'a [u8], loc: usize) -> Self::Inner {
-        Self {
-            _tab: unsafe { ::flatbuffers::Table::new(buf, loc) },
-        }
-    }
+  type Inner = TicketSale<'a>;
+  #[inline]
+  unsafe fn follow(buf: &'a [u8], loc: usize) -> Self::Inner {
+    Self { _tab: unsafe { ::flatbuffers::Table::new(buf, loc) } }
+  }
 }
 
 impl<'a> TicketSale<'a> {
-    pub const VT_MONEY: ::flatbuffers::VOffsetT = 4;
-    pub const VT_INSUFFIEIENT_FUNDS: ::flatbuffers::VOffsetT = 6;
-    pub const VT_TICKET_NUMBER: ::flatbuffers::VOffsetT = 8;
+  pub const VT_MONEY: ::flatbuffers::VOffsetT = 4;
+  pub const VT_INSUFFIEIENT_FUNDS: ::flatbuffers::VOffsetT = 6;
+  pub const VT_TICKET_NUMBER: ::flatbuffers::VOffsetT = 8;
 
-    #[inline]
-    pub unsafe fn init_from_table(table: ::flatbuffers::Table<'a>) -> Self {
-        TicketSale { _tab: table }
-    }
-    #[allow(unused_mut)]
-    pub fn create<
-        'bldr: 'args,
-        'args: 'mut_bldr,
-        'mut_bldr,
-        A: ::flatbuffers::Allocator + 'bldr,
-    >(
-        _fbb: &'mut_bldr mut ::flatbuffers::FlatBufferBuilder<'bldr, A>,
-        args: &'args TicketSaleArgs,
-    ) -> ::flatbuffers::WIPOffset<TicketSale<'bldr>> {
-        let mut builder = TicketSaleBuilder::new(_fbb);
-        builder.add_ticket_number(args.ticket_number);
-        builder.add_money(args.money);
-        builder.add_insuffieient_funds(args.insuffieient_funds);
-        builder.finish()
-    }
+  #[inline]
+  pub unsafe fn init_from_table(table: ::flatbuffers::Table<'a>) -> Self {
+    TicketSale { _tab: table }
+  }
+  #[allow(unused_mut)]
+  pub fn create<'bldr: 'args, 'args: 'mut_bldr, 'mut_bldr, A: ::flatbuffers::Allocator + 'bldr>(
+    _fbb: &'mut_bldr mut ::flatbuffers::FlatBufferBuilder<'bldr, A>,
+    args: &'args TicketSaleArgs
+  ) -> ::flatbuffers::WIPOffset<TicketSale<'bldr>> {
+    let mut builder = TicketSaleBuilder::new(_fbb);
+    builder.add_ticket_number(args.ticket_number);
+    builder.add_money(args.money);
+    builder.add_insuffieient_funds(args.insuffieient_funds);
+    builder.finish()
+  }
 
-    #[inline]
-    pub fn money(&self) -> i16 {
-        // Safety:
-        // Created from valid Table for this object
-        // which contains a valid value in this slot
-        unsafe { self._tab.get::<i16>(TicketSale::VT_MONEY, Some(0)).unwrap() }
-    }
-    #[inline]
-    pub fn insuffieient_funds(&self) -> bool {
-        // Safety:
-        // Created from valid Table for this object
-        // which contains a valid value in this slot
-        unsafe {
-            self._tab
-                .get::<bool>(TicketSale::VT_INSUFFIEIENT_FUNDS, Some(false))
-                .unwrap()
-        }
-    }
-    #[inline]
-    pub fn ticket_number(&self) -> i16 {
-        // Safety:
-        // Created from valid Table for this object
-        // which contains a valid value in this slot
-        unsafe {
-            self._tab
-                .get::<i16>(TicketSale::VT_TICKET_NUMBER, Some(0))
-                .unwrap()
-        }
-    }
+
+  #[inline]
+  pub fn money(&self) -> i16 {
+    // Safety:
+    // Created from valid Table for this object
+    // which contains a valid value in this slot
+    unsafe { self._tab.get::<i16>(TicketSale::VT_MONEY, Some(0)).unwrap()}
+  }
+  #[inline]
+  pub fn insuffieient_funds(&self) -> bool {
+    // Safety:
+    // Created from valid Table for this object
+    // which contains a valid value in this slot
+    unsafe { self._tab.get::<bool>(TicketSale::VT_INSUFFIEIENT_FUNDS, Some(false)).unwrap()}
+  }
+  #[inline]
+  pub fn ticket_number(&self) -> i16 {
+    // Safety:
+    // Created from valid Table for this object
+    // which contains a valid value in this slot
+    unsafe { self._tab.get::<i16>(TicketSale::VT_TICKET_NUMBER, Some(0)).unwrap()}
+  }
 }
 
 impl ::flatbuffers::Verifiable for TicketSale<'_> {
-    #[inline]
-    fn run_verifier(
-        v: &mut ::flatbuffers::Verifier,
-        pos: usize,
-    ) -> Result<(), ::flatbuffers::InvalidFlatbuffer> {
-        v.visit_table(pos)?
-            .visit_field::<i16>("money", Self::VT_MONEY, false)?
-            .visit_field::<bool>("insuffieient_funds", Self::VT_INSUFFIEIENT_FUNDS, false)?
-            .visit_field::<i16>("ticket_number", Self::VT_TICKET_NUMBER, false)?
-            .finish();
-        Ok(())
-    }
+  #[inline]
+  fn run_verifier(
+    v: &mut ::flatbuffers::Verifier, pos: usize
+  ) -> Result<(), ::flatbuffers::InvalidFlatbuffer> {
+    v.visit_table(pos)?
+     .visit_field::<i16>("money", Self::VT_MONEY, false)?
+     .visit_field::<bool>("insuffieient_funds", Self::VT_INSUFFIEIENT_FUNDS, false)?
+     .visit_field::<i16>("ticket_number", Self::VT_TICKET_NUMBER, false)?
+     .finish();
+    Ok(())
+  }
 }
 pub struct TicketSaleArgs {
     pub money: i16,
@@ -208,865 +184,708 @@ pub struct TicketSaleArgs {
     pub ticket_number: i16,
 }
 impl<'a> Default for TicketSaleArgs {
-    #[inline]
-    fn default() -> Self {
-        TicketSaleArgs {
-            money: 0,
-            insuffieient_funds: false,
-            ticket_number: 0,
-        }
+  #[inline]
+  fn default() -> Self {
+    TicketSaleArgs {
+      money: 0,
+      insuffieient_funds: false,
+      ticket_number: 0,
     }
+  }
 }
 
 pub struct TicketSaleBuilder<'a: 'b, 'b, A: ::flatbuffers::Allocator + 'a> {
-    fbb_: &'b mut ::flatbuffers::FlatBufferBuilder<'a, A>,
-    start_: ::flatbuffers::WIPOffset<::flatbuffers::TableUnfinishedWIPOffset>,
+  fbb_: &'b mut ::flatbuffers::FlatBufferBuilder<'a, A>,
+  start_: ::flatbuffers::WIPOffset<::flatbuffers::TableUnfinishedWIPOffset>,
 }
 impl<'a: 'b, 'b, A: ::flatbuffers::Allocator + 'a> TicketSaleBuilder<'a, 'b, A> {
-    #[inline]
-    pub fn add_money(&mut self, money: i16) {
-        self.fbb_.push_slot::<i16>(TicketSale::VT_MONEY, money, 0);
+  #[inline]
+  pub fn add_money(&mut self, money: i16) {
+    self.fbb_.push_slot::<i16>(TicketSale::VT_MONEY, money, 0);
+  }
+  #[inline]
+  pub fn add_insuffieient_funds(&mut self, insuffieient_funds: bool) {
+    self.fbb_.push_slot::<bool>(TicketSale::VT_INSUFFIEIENT_FUNDS, insuffieient_funds, false);
+  }
+  #[inline]
+  pub fn add_ticket_number(&mut self, ticket_number: i16) {
+    self.fbb_.push_slot::<i16>(TicketSale::VT_TICKET_NUMBER, ticket_number, 0);
+  }
+  #[inline]
+  pub fn new(_fbb: &'b mut ::flatbuffers::FlatBufferBuilder<'a, A>) -> TicketSaleBuilder<'a, 'b, A> {
+    let start = _fbb.start_table();
+    TicketSaleBuilder {
+      fbb_: _fbb,
+      start_: start,
     }
-    #[inline]
-    pub fn add_insuffieient_funds(&mut self, insuffieient_funds: bool) {
-        self.fbb_
-            .push_slot::<bool>(TicketSale::VT_INSUFFIEIENT_FUNDS, insuffieient_funds, false);
-    }
-    #[inline]
-    pub fn add_ticket_number(&mut self, ticket_number: i16) {
-        self.fbb_
-            .push_slot::<i16>(TicketSale::VT_TICKET_NUMBER, ticket_number, 0);
-    }
-    #[inline]
-    pub fn new(
-        _fbb: &'b mut ::flatbuffers::FlatBufferBuilder<'a, A>,
-    ) -> TicketSaleBuilder<'a, 'b, A> {
-        let start = _fbb.start_table();
-        TicketSaleBuilder {
-            fbb_: _fbb,
-            start_: start,
-        }
-    }
-    #[inline]
-    pub fn finish(self) -> ::flatbuffers::WIPOffset<TicketSale<'a>> {
-        let o = self.fbb_.end_table(self.start_);
-        ::flatbuffers::WIPOffset::new(o.value())
-    }
+  }
+  #[inline]
+  pub fn finish(self) -> ::flatbuffers::WIPOffset<TicketSale<'a>> {
+    let o = self.fbb_.end_table(self.start_);
+    ::flatbuffers::WIPOffset::new(o.value())
+  }
 }
 
 impl ::core::fmt::Debug for TicketSale<'_> {
-    fn fmt(&self, f: &mut ::core::fmt::Formatter<'_>) -> ::core::fmt::Result {
-        let mut ds = f.debug_struct("TicketSale");
-        ds.field("money", &self.money());
-        ds.field("insuffieient_funds", &self.insuffieient_funds());
-        ds.field("ticket_number", &self.ticket_number());
-        ds.finish()
-    }
+  fn fmt(&self, f: &mut ::core::fmt::Formatter<'_>) -> ::core::fmt::Result {
+    let mut ds = f.debug_struct("TicketSale");
+      ds.field("money", &self.money());
+      ds.field("insuffieient_funds", &self.insuffieient_funds());
+      ds.field("ticket_number", &self.ticket_number());
+      ds.finish()
+  }
 }
 pub enum ClientInfoOffset {}
 #[derive(Copy, Clone, PartialEq)]
 
 pub struct ClientInfo<'a> {
-    pub _tab: ::flatbuffers::Table<'a>,
+  pub _tab: ::flatbuffers::Table<'a>,
 }
 
 impl<'a> ::flatbuffers::Follow<'a> for ClientInfo<'a> {
-    type Inner = ClientInfo<'a>;
-    #[inline]
-    unsafe fn follow(buf: &'a [u8], loc: usize) -> Self::Inner {
-        Self {
-            _tab: unsafe { ::flatbuffers::Table::new(buf, loc) },
-        }
-    }
+  type Inner = ClientInfo<'a>;
+  #[inline]
+  unsafe fn follow(buf: &'a [u8], loc: usize) -> Self::Inner {
+    Self { _tab: unsafe { ::flatbuffers::Table::new(buf, loc) } }
+  }
 }
 
 impl<'a> ClientInfo<'a> {
-    pub const VT_IP_ADDRESS: ::flatbuffers::VOffsetT = 4;
-    pub const VT_UDP_PORT: ::flatbuffers::VOffsetT = 6;
+  pub const VT_IP_ADDRESS: ::flatbuffers::VOffsetT = 4;
+  pub const VT_PORT: ::flatbuffers::VOffsetT = 6;
 
-    #[inline]
-    pub unsafe fn init_from_table(table: ::flatbuffers::Table<'a>) -> Self {
-        ClientInfo { _tab: table }
-    }
-    #[allow(unused_mut)]
-    pub fn create<
-        'bldr: 'args,
-        'args: 'mut_bldr,
-        'mut_bldr,
-        A: ::flatbuffers::Allocator + 'bldr,
-    >(
-        _fbb: &'mut_bldr mut ::flatbuffers::FlatBufferBuilder<'bldr, A>,
-        args: &'args ClientInfoArgs<'args>,
-    ) -> ::flatbuffers::WIPOffset<ClientInfo<'bldr>> {
-        let mut builder = ClientInfoBuilder::new(_fbb);
-        if let Some(x) = args.ip_address {
-            builder.add_ip_address(x);
-        }
-        builder.add_udp_port(args.udp_port);
-        builder.finish()
-    }
+  #[inline]
+  pub unsafe fn init_from_table(table: ::flatbuffers::Table<'a>) -> Self {
+    ClientInfo { _tab: table }
+  }
+  #[allow(unused_mut)]
+  pub fn create<'bldr: 'args, 'args: 'mut_bldr, 'mut_bldr, A: ::flatbuffers::Allocator + 'bldr>(
+    _fbb: &'mut_bldr mut ::flatbuffers::FlatBufferBuilder<'bldr, A>,
+    args: &'args ClientInfoArgs<'args>
+  ) -> ::flatbuffers::WIPOffset<ClientInfo<'bldr>> {
+    let mut builder = ClientInfoBuilder::new(_fbb);
+    if let Some(x) = args.ip_address { builder.add_ip_address(x); }
+    builder.add_port(args.port);
+    builder.finish()
+  }
 
-    #[inline]
-    pub fn ip_address(&self) -> Option<&'a str> {
-        // Safety:
-        // Created from valid Table for this object
-        // which contains a valid value in this slot
-        unsafe {
-            self._tab
-                .get::<::flatbuffers::ForwardsUOffset<&str>>(ClientInfo::VT_IP_ADDRESS, None)
-        }
-    }
-    #[inline]
-    pub fn udp_port(&self) -> u16 {
-        // Safety:
-        // Created from valid Table for this object
-        // which contains a valid value in this slot
-        unsafe {
-            self._tab
-                .get::<u16>(ClientInfo::VT_UDP_PORT, Some(0))
-                .unwrap()
-        }
-    }
+
+  #[inline]
+  pub fn ip_address(&self) -> Option<&'a str> {
+    // Safety:
+    // Created from valid Table for this object
+    // which contains a valid value in this slot
+    unsafe { self._tab.get::<::flatbuffers::ForwardsUOffset<&str>>(ClientInfo::VT_IP_ADDRESS, None)}
+  }
+  #[inline]
+  pub fn port(&self) -> u16 {
+    // Safety:
+    // Created from valid Table for this object
+    // which contains a valid value in this slot
+    unsafe { self._tab.get::<u16>(ClientInfo::VT_PORT, Some(0)).unwrap()}
+  }
 }
 
 impl ::flatbuffers::Verifiable for ClientInfo<'_> {
-    #[inline]
-    fn run_verifier(
-        v: &mut ::flatbuffers::Verifier,
-        pos: usize,
-    ) -> Result<(), ::flatbuffers::InvalidFlatbuffer> {
-        v.visit_table(pos)?
-            .visit_field::<::flatbuffers::ForwardsUOffset<&str>>(
-                "ip_address",
-                Self::VT_IP_ADDRESS,
-                false,
-            )?
-            .visit_field::<u16>("udp_port", Self::VT_UDP_PORT, false)?
-            .finish();
-        Ok(())
-    }
+  #[inline]
+  fn run_verifier(
+    v: &mut ::flatbuffers::Verifier, pos: usize
+  ) -> Result<(), ::flatbuffers::InvalidFlatbuffer> {
+    v.visit_table(pos)?
+     .visit_field::<::flatbuffers::ForwardsUOffset<&str>>("ip_address", Self::VT_IP_ADDRESS, false)?
+     .visit_field::<u16>("port", Self::VT_PORT, false)?
+     .finish();
+    Ok(())
+  }
 }
 pub struct ClientInfoArgs<'a> {
     pub ip_address: Option<::flatbuffers::WIPOffset<&'a str>>,
-    pub udp_port: u16,
+    pub port: u16,
 }
 impl<'a> Default for ClientInfoArgs<'a> {
-    #[inline]
-    fn default() -> Self {
-        ClientInfoArgs {
-            ip_address: None,
-            udp_port: 0,
-        }
+  #[inline]
+  fn default() -> Self {
+    ClientInfoArgs {
+      ip_address: None,
+      port: 0,
     }
+  }
 }
 
 pub struct ClientInfoBuilder<'a: 'b, 'b, A: ::flatbuffers::Allocator + 'a> {
-    fbb_: &'b mut ::flatbuffers::FlatBufferBuilder<'a, A>,
-    start_: ::flatbuffers::WIPOffset<::flatbuffers::TableUnfinishedWIPOffset>,
+  fbb_: &'b mut ::flatbuffers::FlatBufferBuilder<'a, A>,
+  start_: ::flatbuffers::WIPOffset<::flatbuffers::TableUnfinishedWIPOffset>,
 }
 impl<'a: 'b, 'b, A: ::flatbuffers::Allocator + 'a> ClientInfoBuilder<'a, 'b, A> {
-    #[inline]
-    pub fn add_ip_address(&mut self, ip_address: ::flatbuffers::WIPOffset<&'b str>) {
-        self.fbb_
-            .push_slot_always::<::flatbuffers::WIPOffset<_>>(ClientInfo::VT_IP_ADDRESS, ip_address);
+  #[inline]
+  pub fn add_ip_address(&mut self, ip_address: ::flatbuffers::WIPOffset<&'b  str>) {
+    self.fbb_.push_slot_always::<::flatbuffers::WIPOffset<_>>(ClientInfo::VT_IP_ADDRESS, ip_address);
+  }
+  #[inline]
+  pub fn add_port(&mut self, port: u16) {
+    self.fbb_.push_slot::<u16>(ClientInfo::VT_PORT, port, 0);
+  }
+  #[inline]
+  pub fn new(_fbb: &'b mut ::flatbuffers::FlatBufferBuilder<'a, A>) -> ClientInfoBuilder<'a, 'b, A> {
+    let start = _fbb.start_table();
+    ClientInfoBuilder {
+      fbb_: _fbb,
+      start_: start,
     }
-    #[inline]
-    pub fn add_udp_port(&mut self, udp_port: u16) {
-        self.fbb_
-            .push_slot::<u16>(ClientInfo::VT_UDP_PORT, udp_port, 0);
-    }
-    #[inline]
-    pub fn new(
-        _fbb: &'b mut ::flatbuffers::FlatBufferBuilder<'a, A>,
-    ) -> ClientInfoBuilder<'a, 'b, A> {
-        let start = _fbb.start_table();
-        ClientInfoBuilder {
-            fbb_: _fbb,
-            start_: start,
-        }
-    }
-    #[inline]
-    pub fn finish(self) -> ::flatbuffers::WIPOffset<ClientInfo<'a>> {
-        let o = self.fbb_.end_table(self.start_);
-        ::flatbuffers::WIPOffset::new(o.value())
-    }
+  }
+  #[inline]
+  pub fn finish(self) -> ::flatbuffers::WIPOffset<ClientInfo<'a>> {
+    let o = self.fbb_.end_table(self.start_);
+    ::flatbuffers::WIPOffset::new(o.value())
+  }
 }
 
 impl ::core::fmt::Debug for ClientInfo<'_> {
-    fn fmt(&self, f: &mut ::core::fmt::Formatter<'_>) -> ::core::fmt::Result {
-        let mut ds = f.debug_struct("ClientInfo");
-        ds.field("ip_address", &self.ip_address());
-        ds.field("udp_port", &self.udp_port());
-        ds.finish()
-    }
+  fn fmt(&self, f: &mut ::core::fmt::Formatter<'_>) -> ::core::fmt::Result {
+    let mut ds = f.debug_struct("ClientInfo");
+      ds.field("ip_address", &self.ip_address());
+      ds.field("port", &self.port());
+      ds.finish()
+  }
 }
 pub enum ResetTicketsOffset {}
 #[derive(Copy, Clone, PartialEq)]
 
 pub struct ResetTickets<'a> {
-    pub _tab: ::flatbuffers::Table<'a>,
+  pub _tab: ::flatbuffers::Table<'a>,
 }
 
 impl<'a> ::flatbuffers::Follow<'a> for ResetTickets<'a> {
-    type Inner = ResetTickets<'a>;
-    #[inline]
-    unsafe fn follow(buf: &'a [u8], loc: usize) -> Self::Inner {
-        Self {
-            _tab: unsafe { ::flatbuffers::Table::new(buf, loc) },
-        }
-    }
+  type Inner = ResetTickets<'a>;
+  #[inline]
+  unsafe fn follow(buf: &'a [u8], loc: usize) -> Self::Inner {
+    Self { _tab: unsafe { ::flatbuffers::Table::new(buf, loc) } }
+  }
 }
 
 impl<'a> ResetTickets<'a> {
-    pub const VT_RESET_EVENT: ::flatbuffers::VOffsetT = 4;
+  pub const VT_RESET_EVENT: ::flatbuffers::VOffsetT = 4;
 
-    #[inline]
-    pub unsafe fn init_from_table(table: ::flatbuffers::Table<'a>) -> Self {
-        ResetTickets { _tab: table }
-    }
-    #[allow(unused_mut)]
-    pub fn create<
-        'bldr: 'args,
-        'args: 'mut_bldr,
-        'mut_bldr,
-        A: ::flatbuffers::Allocator + 'bldr,
-    >(
-        _fbb: &'mut_bldr mut ::flatbuffers::FlatBufferBuilder<'bldr, A>,
-        args: &'args ResetTicketsArgs,
-    ) -> ::flatbuffers::WIPOffset<ResetTickets<'bldr>> {
-        let mut builder = ResetTicketsBuilder::new(_fbb);
-        builder.add_reset_event(args.reset_event);
-        builder.finish()
-    }
+  #[inline]
+  pub unsafe fn init_from_table(table: ::flatbuffers::Table<'a>) -> Self {
+    ResetTickets { _tab: table }
+  }
+  #[allow(unused_mut)]
+  pub fn create<'bldr: 'args, 'args: 'mut_bldr, 'mut_bldr, A: ::flatbuffers::Allocator + 'bldr>(
+    _fbb: &'mut_bldr mut ::flatbuffers::FlatBufferBuilder<'bldr, A>,
+    args: &'args ResetTicketsArgs
+  ) -> ::flatbuffers::WIPOffset<ResetTickets<'bldr>> {
+    let mut builder = ResetTicketsBuilder::new(_fbb);
+    builder.add_reset_event(args.reset_event);
+    builder.finish()
+  }
 
-    #[inline]
-    pub fn reset_event(&self) -> bool {
-        // Safety:
-        // Created from valid Table for this object
-        // which contains a valid value in this slot
-        unsafe {
-            self._tab
-                .get::<bool>(ResetTickets::VT_RESET_EVENT, Some(true))
-                .unwrap()
-        }
-    }
+
+  #[inline]
+  pub fn reset_event(&self) -> bool {
+    // Safety:
+    // Created from valid Table for this object
+    // which contains a valid value in this slot
+    unsafe { self._tab.get::<bool>(ResetTickets::VT_RESET_EVENT, Some(true)).unwrap()}
+  }
 }
 
 impl ::flatbuffers::Verifiable for ResetTickets<'_> {
-    #[inline]
-    fn run_verifier(
-        v: &mut ::flatbuffers::Verifier,
-        pos: usize,
-    ) -> Result<(), ::flatbuffers::InvalidFlatbuffer> {
-        v.visit_table(pos)?
-            .visit_field::<bool>("reset_event", Self::VT_RESET_EVENT, false)?
-            .finish();
-        Ok(())
-    }
+  #[inline]
+  fn run_verifier(
+    v: &mut ::flatbuffers::Verifier, pos: usize
+  ) -> Result<(), ::flatbuffers::InvalidFlatbuffer> {
+    v.visit_table(pos)?
+     .visit_field::<bool>("reset_event", Self::VT_RESET_EVENT, false)?
+     .finish();
+    Ok(())
+  }
 }
 pub struct ResetTicketsArgs {
     pub reset_event: bool,
 }
 impl<'a> Default for ResetTicketsArgs {
-    #[inline]
-    fn default() -> Self {
-        ResetTicketsArgs { reset_event: true }
+  #[inline]
+  fn default() -> Self {
+    ResetTicketsArgs {
+      reset_event: true,
     }
+  }
 }
 
 pub struct ResetTicketsBuilder<'a: 'b, 'b, A: ::flatbuffers::Allocator + 'a> {
-    fbb_: &'b mut ::flatbuffers::FlatBufferBuilder<'a, A>,
-    start_: ::flatbuffers::WIPOffset<::flatbuffers::TableUnfinishedWIPOffset>,
+  fbb_: &'b mut ::flatbuffers::FlatBufferBuilder<'a, A>,
+  start_: ::flatbuffers::WIPOffset<::flatbuffers::TableUnfinishedWIPOffset>,
 }
 impl<'a: 'b, 'b, A: ::flatbuffers::Allocator + 'a> ResetTicketsBuilder<'a, 'b, A> {
-    #[inline]
-    pub fn add_reset_event(&mut self, reset_event: bool) {
-        self.fbb_
-            .push_slot::<bool>(ResetTickets::VT_RESET_EVENT, reset_event, true);
+  #[inline]
+  pub fn add_reset_event(&mut self, reset_event: bool) {
+    self.fbb_.push_slot::<bool>(ResetTickets::VT_RESET_EVENT, reset_event, true);
+  }
+  #[inline]
+  pub fn new(_fbb: &'b mut ::flatbuffers::FlatBufferBuilder<'a, A>) -> ResetTicketsBuilder<'a, 'b, A> {
+    let start = _fbb.start_table();
+    ResetTicketsBuilder {
+      fbb_: _fbb,
+      start_: start,
     }
-    #[inline]
-    pub fn new(
-        _fbb: &'b mut ::flatbuffers::FlatBufferBuilder<'a, A>,
-    ) -> ResetTicketsBuilder<'a, 'b, A> {
-        let start = _fbb.start_table();
-        ResetTicketsBuilder {
-            fbb_: _fbb,
-            start_: start,
-        }
-    }
-    #[inline]
-    pub fn finish(self) -> ::flatbuffers::WIPOffset<ResetTickets<'a>> {
-        let o = self.fbb_.end_table(self.start_);
-        ::flatbuffers::WIPOffset::new(o.value())
-    }
+  }
+  #[inline]
+  pub fn finish(self) -> ::flatbuffers::WIPOffset<ResetTickets<'a>> {
+    let o = self.fbb_.end_table(self.start_);
+    ::flatbuffers::WIPOffset::new(o.value())
+  }
 }
 
 impl ::core::fmt::Debug for ResetTickets<'_> {
-    fn fmt(&self, f: &mut ::core::fmt::Formatter<'_>) -> ::core::fmt::Result {
-        let mut ds = f.debug_struct("ResetTickets");
-        ds.field("reset_event", &self.reset_event());
-        ds.finish()
-    }
+  fn fmt(&self, f: &mut ::core::fmt::Formatter<'_>) -> ::core::fmt::Result {
+    let mut ds = f.debug_struct("ResetTickets");
+      ds.field("reset_event", &self.reset_event());
+      ds.finish()
+  }
 }
 pub enum ScalperInfoOffset {}
 #[derive(Copy, Clone, PartialEq)]
 
 pub struct ScalperInfo<'a> {
-    pub _tab: ::flatbuffers::Table<'a>,
+  pub _tab: ::flatbuffers::Table<'a>,
 }
 
 impl<'a> ::flatbuffers::Follow<'a> for ScalperInfo<'a> {
-    type Inner = ScalperInfo<'a>;
-    #[inline]
-    unsafe fn follow(buf: &'a [u8], loc: usize) -> Self::Inner {
-        Self {
-            _tab: unsafe { ::flatbuffers::Table::new(buf, loc) },
-        }
-    }
+  type Inner = ScalperInfo<'a>;
+  #[inline]
+  unsafe fn follow(buf: &'a [u8], loc: usize) -> Self::Inner {
+    Self { _tab: unsafe { ::flatbuffers::Table::new(buf, loc) } }
+  }
 }
 
 impl<'a> ScalperInfo<'a> {
-    pub const VT_SCALPER_ADDRESS: ::flatbuffers::VOffsetT = 4;
+  pub const VT_SCALPER_ADDRESS: ::flatbuffers::VOffsetT = 4;
 
-    #[inline]
-    pub unsafe fn init_from_table(table: ::flatbuffers::Table<'a>) -> Self {
-        ScalperInfo { _tab: table }
-    }
-    #[allow(unused_mut)]
-    pub fn create<
-        'bldr: 'args,
-        'args: 'mut_bldr,
-        'mut_bldr,
-        A: ::flatbuffers::Allocator + 'bldr,
-    >(
-        _fbb: &'mut_bldr mut ::flatbuffers::FlatBufferBuilder<'bldr, A>,
-        args: &'args ScalperInfoArgs<'args>,
-    ) -> ::flatbuffers::WIPOffset<ScalperInfo<'bldr>> {
-        let mut builder = ScalperInfoBuilder::new(_fbb);
-        if let Some(x) = args.scalper_address {
-            builder.add_scalper_address(x);
-        }
-        builder.finish()
-    }
+  #[inline]
+  pub unsafe fn init_from_table(table: ::flatbuffers::Table<'a>) -> Self {
+    ScalperInfo { _tab: table }
+  }
+  #[allow(unused_mut)]
+  pub fn create<'bldr: 'args, 'args: 'mut_bldr, 'mut_bldr, A: ::flatbuffers::Allocator + 'bldr>(
+    _fbb: &'mut_bldr mut ::flatbuffers::FlatBufferBuilder<'bldr, A>,
+    args: &'args ScalperInfoArgs<'args>
+  ) -> ::flatbuffers::WIPOffset<ScalperInfo<'bldr>> {
+    let mut builder = ScalperInfoBuilder::new(_fbb);
+    if let Some(x) = args.scalper_address { builder.add_scalper_address(x); }
+    builder.finish()
+  }
 
-    #[inline]
-    pub fn scalper_address(
-        &self,
-    ) -> Option<::flatbuffers::Vector<'a, ::flatbuffers::ForwardsUOffset<&'a str>>> {
-        // Safety:
-        // Created from valid Table for this object
-        // which contains a valid value in this slot
-        unsafe {
-            self._tab.get::<::flatbuffers::ForwardsUOffset<
-                ::flatbuffers::Vector<'a, ::flatbuffers::ForwardsUOffset<&'a str>>,
-            >>(ScalperInfo::VT_SCALPER_ADDRESS, None)
-        }
-    }
+
+  #[inline]
+  pub fn scalper_address(&self) -> Option<::flatbuffers::Vector<'a, ::flatbuffers::ForwardsUOffset<&'a str>>> {
+    // Safety:
+    // Created from valid Table for this object
+    // which contains a valid value in this slot
+    unsafe { self._tab.get::<::flatbuffers::ForwardsUOffset<::flatbuffers::Vector<'a, ::flatbuffers::ForwardsUOffset<&'a str>>>>(ScalperInfo::VT_SCALPER_ADDRESS, None)}
+  }
 }
 
 impl ::flatbuffers::Verifiable for ScalperInfo<'_> {
-    #[inline]
-    fn run_verifier(
-        v: &mut ::flatbuffers::Verifier,
-        pos: usize,
-    ) -> Result<(), ::flatbuffers::InvalidFlatbuffer> {
-        v.visit_table(pos)?
-            .visit_field::<::flatbuffers::ForwardsUOffset<
-                ::flatbuffers::Vector<'_, ::flatbuffers::ForwardsUOffset<&'_ str>>,
-            >>("scalper_address", Self::VT_SCALPER_ADDRESS, false)?
-            .finish();
-        Ok(())
-    }
+  #[inline]
+  fn run_verifier(
+    v: &mut ::flatbuffers::Verifier, pos: usize
+  ) -> Result<(), ::flatbuffers::InvalidFlatbuffer> {
+    v.visit_table(pos)?
+     .visit_field::<::flatbuffers::ForwardsUOffset<::flatbuffers::Vector<'_, ::flatbuffers::ForwardsUOffset<&'_ str>>>>("scalper_address", Self::VT_SCALPER_ADDRESS, false)?
+     .finish();
+    Ok(())
+  }
 }
 pub struct ScalperInfoArgs<'a> {
-    pub scalper_address: Option<
-        ::flatbuffers::WIPOffset<
-            ::flatbuffers::Vector<'a, ::flatbuffers::ForwardsUOffset<&'a str>>,
-        >,
-    >,
+    pub scalper_address: Option<::flatbuffers::WIPOffset<::flatbuffers::Vector<'a, ::flatbuffers::ForwardsUOffset<&'a str>>>>,
 }
 impl<'a> Default for ScalperInfoArgs<'a> {
-    #[inline]
-    fn default() -> Self {
-        ScalperInfoArgs {
-            scalper_address: None,
-        }
+  #[inline]
+  fn default() -> Self {
+    ScalperInfoArgs {
+      scalper_address: None,
     }
+  }
 }
 
 pub struct ScalperInfoBuilder<'a: 'b, 'b, A: ::flatbuffers::Allocator + 'a> {
-    fbb_: &'b mut ::flatbuffers::FlatBufferBuilder<'a, A>,
-    start_: ::flatbuffers::WIPOffset<::flatbuffers::TableUnfinishedWIPOffset>,
+  fbb_: &'b mut ::flatbuffers::FlatBufferBuilder<'a, A>,
+  start_: ::flatbuffers::WIPOffset<::flatbuffers::TableUnfinishedWIPOffset>,
 }
 impl<'a: 'b, 'b, A: ::flatbuffers::Allocator + 'a> ScalperInfoBuilder<'a, 'b, A> {
-    #[inline]
-    pub fn add_scalper_address(
-        &mut self,
-        scalper_address: ::flatbuffers::WIPOffset<
-            ::flatbuffers::Vector<'b, ::flatbuffers::ForwardsUOffset<&'b str>>,
-        >,
-    ) {
-        self.fbb_.push_slot_always::<::flatbuffers::WIPOffset<_>>(
-            ScalperInfo::VT_SCALPER_ADDRESS,
-            scalper_address,
-        );
+  #[inline]
+  pub fn add_scalper_address(&mut self, scalper_address: ::flatbuffers::WIPOffset<::flatbuffers::Vector<'b , ::flatbuffers::ForwardsUOffset<&'b  str>>>) {
+    self.fbb_.push_slot_always::<::flatbuffers::WIPOffset<_>>(ScalperInfo::VT_SCALPER_ADDRESS, scalper_address);
+  }
+  #[inline]
+  pub fn new(_fbb: &'b mut ::flatbuffers::FlatBufferBuilder<'a, A>) -> ScalperInfoBuilder<'a, 'b, A> {
+    let start = _fbb.start_table();
+    ScalperInfoBuilder {
+      fbb_: _fbb,
+      start_: start,
     }
-    #[inline]
-    pub fn new(
-        _fbb: &'b mut ::flatbuffers::FlatBufferBuilder<'a, A>,
-    ) -> ScalperInfoBuilder<'a, 'b, A> {
-        let start = _fbb.start_table();
-        ScalperInfoBuilder {
-            fbb_: _fbb,
-            start_: start,
-        }
-    }
-    #[inline]
-    pub fn finish(self) -> ::flatbuffers::WIPOffset<ScalperInfo<'a>> {
-        let o = self.fbb_.end_table(self.start_);
-        ::flatbuffers::WIPOffset::new(o.value())
-    }
+  }
+  #[inline]
+  pub fn finish(self) -> ::flatbuffers::WIPOffset<ScalperInfo<'a>> {
+    let o = self.fbb_.end_table(self.start_);
+    ::flatbuffers::WIPOffset::new(o.value())
+  }
 }
 
 impl ::core::fmt::Debug for ScalperInfo<'_> {
-    fn fmt(&self, f: &mut ::core::fmt::Formatter<'_>) -> ::core::fmt::Result {
-        let mut ds = f.debug_struct("ScalperInfo");
-        ds.field("scalper_address", &self.scalper_address());
-        ds.finish()
-    }
+  fn fmt(&self, f: &mut ::core::fmt::Formatter<'_>) -> ::core::fmt::Result {
+    let mut ds = f.debug_struct("ScalperInfo");
+      ds.field("scalper_address", &self.scalper_address());
+      ds.finish()
+  }
 }
 pub enum HelloWorldOffset {}
 #[derive(Copy, Clone, PartialEq)]
 
 pub struct HelloWorld<'a> {
-    pub _tab: ::flatbuffers::Table<'a>,
+  pub _tab: ::flatbuffers::Table<'a>,
 }
 
 impl<'a> ::flatbuffers::Follow<'a> for HelloWorld<'a> {
-    type Inner = HelloWorld<'a>;
-    #[inline]
-    unsafe fn follow(buf: &'a [u8], loc: usize) -> Self::Inner {
-        Self {
-            _tab: unsafe { ::flatbuffers::Table::new(buf, loc) },
-        }
-    }
+  type Inner = HelloWorld<'a>;
+  #[inline]
+  unsafe fn follow(buf: &'a [u8], loc: usize) -> Self::Inner {
+    Self { _tab: unsafe { ::flatbuffers::Table::new(buf, loc) } }
+  }
 }
 
 impl<'a> HelloWorld<'a> {
-    pub const VT_MESSAGE: ::flatbuffers::VOffsetT = 4;
-    pub const VT_TIMESTAMP: ::flatbuffers::VOffsetT = 6;
+  pub const VT_MESSAGE: ::flatbuffers::VOffsetT = 4;
+  pub const VT_TIMESTAMP: ::flatbuffers::VOffsetT = 6;
 
-    #[inline]
-    pub unsafe fn init_from_table(table: ::flatbuffers::Table<'a>) -> Self {
-        HelloWorld { _tab: table }
-    }
-    #[allow(unused_mut)]
-    pub fn create<
-        'bldr: 'args,
-        'args: 'mut_bldr,
-        'mut_bldr,
-        A: ::flatbuffers::Allocator + 'bldr,
-    >(
-        _fbb: &'mut_bldr mut ::flatbuffers::FlatBufferBuilder<'bldr, A>,
-        args: &'args HelloWorldArgs<'args>,
-    ) -> ::flatbuffers::WIPOffset<HelloWorld<'bldr>> {
-        let mut builder = HelloWorldBuilder::new(_fbb);
-        builder.add_timestamp(args.timestamp);
-        if let Some(x) = args.message {
-            builder.add_message(x);
-        }
-        builder.finish()
-    }
+  #[inline]
+  pub unsafe fn init_from_table(table: ::flatbuffers::Table<'a>) -> Self {
+    HelloWorld { _tab: table }
+  }
+  #[allow(unused_mut)]
+  pub fn create<'bldr: 'args, 'args: 'mut_bldr, 'mut_bldr, A: ::flatbuffers::Allocator + 'bldr>(
+    _fbb: &'mut_bldr mut ::flatbuffers::FlatBufferBuilder<'bldr, A>,
+    args: &'args HelloWorldArgs<'args>
+  ) -> ::flatbuffers::WIPOffset<HelloWorld<'bldr>> {
+    let mut builder = HelloWorldBuilder::new(_fbb);
+    builder.add_timestamp(args.timestamp);
+    if let Some(x) = args.message { builder.add_message(x); }
+    builder.finish()
+  }
 
-    #[inline]
-    pub fn message(&self) -> Option<&'a str> {
-        // Safety:
-        // Created from valid Table for this object
-        // which contains a valid value in this slot
-        unsafe {
-            self._tab
-                .get::<::flatbuffers::ForwardsUOffset<&str>>(HelloWorld::VT_MESSAGE, None)
-        }
-    }
-    #[inline]
-    pub fn timestamp(&self) -> i64 {
-        // Safety:
-        // Created from valid Table for this object
-        // which contains a valid value in this slot
-        unsafe {
-            self._tab
-                .get::<i64>(HelloWorld::VT_TIMESTAMP, Some(0))
-                .unwrap()
-        }
-    }
+
+  #[inline]
+  pub fn message(&self) -> Option<&'a str> {
+    // Safety:
+    // Created from valid Table for this object
+    // which contains a valid value in this slot
+    unsafe { self._tab.get::<::flatbuffers::ForwardsUOffset<&str>>(HelloWorld::VT_MESSAGE, None)}
+  }
+  #[inline]
+  pub fn timestamp(&self) -> i64 {
+    // Safety:
+    // Created from valid Table for this object
+    // which contains a valid value in this slot
+    unsafe { self._tab.get::<i64>(HelloWorld::VT_TIMESTAMP, Some(0)).unwrap()}
+  }
 }
 
 impl ::flatbuffers::Verifiable for HelloWorld<'_> {
-    #[inline]
-    fn run_verifier(
-        v: &mut ::flatbuffers::Verifier,
-        pos: usize,
-    ) -> Result<(), ::flatbuffers::InvalidFlatbuffer> {
-        v.visit_table(pos)?
-            .visit_field::<::flatbuffers::ForwardsUOffset<&str>>(
-                "message",
-                Self::VT_MESSAGE,
-                false,
-            )?
-            .visit_field::<i64>("timestamp", Self::VT_TIMESTAMP, false)?
-            .finish();
-        Ok(())
-    }
+  #[inline]
+  fn run_verifier(
+    v: &mut ::flatbuffers::Verifier, pos: usize
+  ) -> Result<(), ::flatbuffers::InvalidFlatbuffer> {
+    v.visit_table(pos)?
+     .visit_field::<::flatbuffers::ForwardsUOffset<&str>>("message", Self::VT_MESSAGE, false)?
+     .visit_field::<i64>("timestamp", Self::VT_TIMESTAMP, false)?
+     .finish();
+    Ok(())
+  }
 }
 pub struct HelloWorldArgs<'a> {
     pub message: Option<::flatbuffers::WIPOffset<&'a str>>,
     pub timestamp: i64,
 }
 impl<'a> Default for HelloWorldArgs<'a> {
-    #[inline]
-    fn default() -> Self {
-        HelloWorldArgs {
-            message: None,
-            timestamp: 0,
-        }
+  #[inline]
+  fn default() -> Self {
+    HelloWorldArgs {
+      message: None,
+      timestamp: 0,
     }
+  }
 }
 
 pub struct HelloWorldBuilder<'a: 'b, 'b, A: ::flatbuffers::Allocator + 'a> {
-    fbb_: &'b mut ::flatbuffers::FlatBufferBuilder<'a, A>,
-    start_: ::flatbuffers::WIPOffset<::flatbuffers::TableUnfinishedWIPOffset>,
+  fbb_: &'b mut ::flatbuffers::FlatBufferBuilder<'a, A>,
+  start_: ::flatbuffers::WIPOffset<::flatbuffers::TableUnfinishedWIPOffset>,
 }
 impl<'a: 'b, 'b, A: ::flatbuffers::Allocator + 'a> HelloWorldBuilder<'a, 'b, A> {
-    #[inline]
-    pub fn add_message(&mut self, message: ::flatbuffers::WIPOffset<&'b str>) {
-        self.fbb_
-            .push_slot_always::<::flatbuffers::WIPOffset<_>>(HelloWorld::VT_MESSAGE, message);
+  #[inline]
+  pub fn add_message(&mut self, message: ::flatbuffers::WIPOffset<&'b  str>) {
+    self.fbb_.push_slot_always::<::flatbuffers::WIPOffset<_>>(HelloWorld::VT_MESSAGE, message);
+  }
+  #[inline]
+  pub fn add_timestamp(&mut self, timestamp: i64) {
+    self.fbb_.push_slot::<i64>(HelloWorld::VT_TIMESTAMP, timestamp, 0);
+  }
+  #[inline]
+  pub fn new(_fbb: &'b mut ::flatbuffers::FlatBufferBuilder<'a, A>) -> HelloWorldBuilder<'a, 'b, A> {
+    let start = _fbb.start_table();
+    HelloWorldBuilder {
+      fbb_: _fbb,
+      start_: start,
     }
-    #[inline]
-    pub fn add_timestamp(&mut self, timestamp: i64) {
-        self.fbb_
-            .push_slot::<i64>(HelloWorld::VT_TIMESTAMP, timestamp, 0);
-    }
-    #[inline]
-    pub fn new(
-        _fbb: &'b mut ::flatbuffers::FlatBufferBuilder<'a, A>,
-    ) -> HelloWorldBuilder<'a, 'b, A> {
-        let start = _fbb.start_table();
-        HelloWorldBuilder {
-            fbb_: _fbb,
-            start_: start,
-        }
-    }
-    #[inline]
-    pub fn finish(self) -> ::flatbuffers::WIPOffset<HelloWorld<'a>> {
-        let o = self.fbb_.end_table(self.start_);
-        ::flatbuffers::WIPOffset::new(o.value())
-    }
+  }
+  #[inline]
+  pub fn finish(self) -> ::flatbuffers::WIPOffset<HelloWorld<'a>> {
+    let o = self.fbb_.end_table(self.start_);
+    ::flatbuffers::WIPOffset::new(o.value())
+  }
 }
 
 impl ::core::fmt::Debug for HelloWorld<'_> {
-    fn fmt(&self, f: &mut ::core::fmt::Formatter<'_>) -> ::core::fmt::Result {
-        let mut ds = f.debug_struct("HelloWorld");
-        ds.field("message", &self.message());
-        ds.field("timestamp", &self.timestamp());
-        ds.finish()
-    }
+  fn fmt(&self, f: &mut ::core::fmt::Formatter<'_>) -> ::core::fmt::Result {
+    let mut ds = f.debug_struct("HelloWorld");
+      ds.field("message", &self.message());
+      ds.field("timestamp", &self.timestamp());
+      ds.finish()
+  }
 }
 pub enum RootTableOffset {}
 #[derive(Copy, Clone, PartialEq)]
 
 pub struct RootTable<'a> {
-    pub _tab: ::flatbuffers::Table<'a>,
+  pub _tab: ::flatbuffers::Table<'a>,
 }
 
 impl<'a> ::flatbuffers::Follow<'a> for RootTable<'a> {
-    type Inner = RootTable<'a>;
-    #[inline]
-    unsafe fn follow(buf: &'a [u8], loc: usize) -> Self::Inner {
-        Self {
-            _tab: unsafe { ::flatbuffers::Table::new(buf, loc) },
-        }
-    }
+  type Inner = RootTable<'a>;
+  #[inline]
+  unsafe fn follow(buf: &'a [u8], loc: usize) -> Self::Inner {
+    Self { _tab: unsafe { ::flatbuffers::Table::new(buf, loc) } }
+  }
 }
 
 impl<'a> RootTable<'a> {
-    pub const VT_DATA_TYPE: ::flatbuffers::VOffsetT = 4;
-    pub const VT_DATA: ::flatbuffers::VOffsetT = 6;
+  pub const VT_DATA_TYPE: ::flatbuffers::VOffsetT = 4;
+  pub const VT_DATA: ::flatbuffers::VOffsetT = 6;
 
-    #[inline]
-    pub unsafe fn init_from_table(table: ::flatbuffers::Table<'a>) -> Self {
-        RootTable { _tab: table }
-    }
-    #[allow(unused_mut)]
-    pub fn create<
-        'bldr: 'args,
-        'args: 'mut_bldr,
-        'mut_bldr,
-        A: ::flatbuffers::Allocator + 'bldr,
-    >(
-        _fbb: &'mut_bldr mut ::flatbuffers::FlatBufferBuilder<'bldr, A>,
-        args: &'args RootTableArgs,
-    ) -> ::flatbuffers::WIPOffset<RootTable<'bldr>> {
-        let mut builder = RootTableBuilder::new(_fbb);
-        if let Some(x) = args.data {
-            builder.add_data(x);
-        }
-        builder.add_data_type(args.data_type);
-        builder.finish()
-    }
+  #[inline]
+  pub unsafe fn init_from_table(table: ::flatbuffers::Table<'a>) -> Self {
+    RootTable { _tab: table }
+  }
+  #[allow(unused_mut)]
+  pub fn create<'bldr: 'args, 'args: 'mut_bldr, 'mut_bldr, A: ::flatbuffers::Allocator + 'bldr>(
+    _fbb: &'mut_bldr mut ::flatbuffers::FlatBufferBuilder<'bldr, A>,
+    args: &'args RootTableArgs
+  ) -> ::flatbuffers::WIPOffset<RootTable<'bldr>> {
+    let mut builder = RootTableBuilder::new(_fbb);
+    if let Some(x) = args.data { builder.add_data(x); }
+    builder.add_data_type(args.data_type);
+    builder.finish()
+  }
 
-    #[inline]
-    pub fn data_type(&self) -> MessageUnion {
-        // Safety:
-        // Created from valid Table for this object
-        // which contains a valid value in this slot
-        unsafe {
-            self._tab
-                .get::<MessageUnion>(RootTable::VT_DATA_TYPE, Some(MessageUnion::NONE))
-                .unwrap()
-        }
-    }
-    #[inline]
-    pub fn data(&self) -> Option<::flatbuffers::Table<'a>> {
-        // Safety:
-        // Created from valid Table for this object
-        // which contains a valid value in this slot
-        unsafe {
-            self._tab
-                .get::<::flatbuffers::ForwardsUOffset<::flatbuffers::Table<'a>>>(
-                    RootTable::VT_DATA,
-                    None,
-                )
-        }
-    }
-    #[inline]
-    #[allow(non_snake_case)]
-    pub fn data_as_client_info(&self) -> Option<ClientInfo<'a>> {
-        if self.data_type() == MessageUnion::ClientInfo {
-            self.data().map(|t| {
-                // Safety:
-                // Created from a valid Table for this object
-                // Which contains a valid union in this slot
-                unsafe { ClientInfo::init_from_table(t) }
-            })
-        } else {
-            None
-        }
-    }
 
-    #[inline]
-    #[allow(non_snake_case)]
-    pub fn data_as_ticket_sale(&self) -> Option<TicketSale<'a>> {
-        if self.data_type() == MessageUnion::TicketSale {
-            self.data().map(|t| {
-                // Safety:
-                // Created from a valid Table for this object
-                // Which contains a valid union in this slot
-                unsafe { TicketSale::init_from_table(t) }
-            })
-        } else {
-            None
-        }
+  #[inline]
+  pub fn data_type(&self) -> MessageUnion {
+    // Safety:
+    // Created from valid Table for this object
+    // which contains a valid value in this slot
+    unsafe { self._tab.get::<MessageUnion>(RootTable::VT_DATA_TYPE, Some(MessageUnion::NONE)).unwrap()}
+  }
+  #[inline]
+  pub fn data(&self) -> Option<::flatbuffers::Table<'a>> {
+    // Safety:
+    // Created from valid Table for this object
+    // which contains a valid value in this slot
+    unsafe { self._tab.get::<::flatbuffers::ForwardsUOffset<::flatbuffers::Table<'a>>>(RootTable::VT_DATA, None)}
+  }
+  #[inline]
+  #[allow(non_snake_case)]
+  pub fn data_as_client_info(&self) -> Option<ClientInfo<'a>> {
+    if self.data_type() == MessageUnion::ClientInfo {
+      self.data().map(|t| {
+       // Safety:
+       // Created from a valid Table for this object
+       // Which contains a valid union in this slot
+       unsafe { ClientInfo::init_from_table(t) }
+     })
+    } else {
+      None
     }
+  }
 
-    #[inline]
-    #[allow(non_snake_case)]
-    pub fn data_as_reset_tickets(&self) -> Option<ResetTickets<'a>> {
-        if self.data_type() == MessageUnion::ResetTickets {
-            self.data().map(|t| {
-                // Safety:
-                // Created from a valid Table for this object
-                // Which contains a valid union in this slot
-                unsafe { ResetTickets::init_from_table(t) }
-            })
-        } else {
-            None
-        }
+  #[inline]
+  #[allow(non_snake_case)]
+  pub fn data_as_ticket_sale(&self) -> Option<TicketSale<'a>> {
+    if self.data_type() == MessageUnion::TicketSale {
+      self.data().map(|t| {
+       // Safety:
+       // Created from a valid Table for this object
+       // Which contains a valid union in this slot
+       unsafe { TicketSale::init_from_table(t) }
+     })
+    } else {
+      None
     }
+  }
 
-    #[inline]
-    #[allow(non_snake_case)]
-    pub fn data_as_scalper_info(&self) -> Option<ScalperInfo<'a>> {
-        if self.data_type() == MessageUnion::ScalperInfo {
-            self.data().map(|t| {
-                // Safety:
-                // Created from a valid Table for this object
-                // Which contains a valid union in this slot
-                unsafe { ScalperInfo::init_from_table(t) }
-            })
-        } else {
-            None
-        }
+  #[inline]
+  #[allow(non_snake_case)]
+  pub fn data_as_reset_tickets(&self) -> Option<ResetTickets<'a>> {
+    if self.data_type() == MessageUnion::ResetTickets {
+      self.data().map(|t| {
+       // Safety:
+       // Created from a valid Table for this object
+       // Which contains a valid union in this slot
+       unsafe { ResetTickets::init_from_table(t) }
+     })
+    } else {
+      None
     }
+  }
 
-    #[inline]
-    #[allow(non_snake_case)]
-    pub fn data_as_hello_world(&self) -> Option<HelloWorld<'a>> {
-        if self.data_type() == MessageUnion::HelloWorld {
-            self.data().map(|t| {
-                // Safety:
-                // Created from a valid Table for this object
-                // Which contains a valid union in this slot
-                unsafe { HelloWorld::init_from_table(t) }
-            })
-        } else {
-            None
-        }
+  #[inline]
+  #[allow(non_snake_case)]
+  pub fn data_as_scalper_info(&self) -> Option<ScalperInfo<'a>> {
+    if self.data_type() == MessageUnion::ScalperInfo {
+      self.data().map(|t| {
+       // Safety:
+       // Created from a valid Table for this object
+       // Which contains a valid union in this slot
+       unsafe { ScalperInfo::init_from_table(t) }
+     })
+    } else {
+      None
     }
+  }
+
+  #[inline]
+  #[allow(non_snake_case)]
+  pub fn data_as_hello_world(&self) -> Option<HelloWorld<'a>> {
+    if self.data_type() == MessageUnion::HelloWorld {
+      self.data().map(|t| {
+       // Safety:
+       // Created from a valid Table for this object
+       // Which contains a valid union in this slot
+       unsafe { HelloWorld::init_from_table(t) }
+     })
+    } else {
+      None
+    }
+  }
+
 }
 
 impl ::flatbuffers::Verifiable for RootTable<'_> {
-    #[inline]
-    fn run_verifier(
-        v: &mut ::flatbuffers::Verifier,
-        pos: usize,
-    ) -> Result<(), ::flatbuffers::InvalidFlatbuffer> {
-        v.visit_table(pos)?
-            .visit_union::<MessageUnion, _>(
-                "data_type",
-                Self::VT_DATA_TYPE,
-                "data",
-                Self::VT_DATA,
-                false,
-                |key, v, pos| match key {
-                    MessageUnion::ClientInfo => v
-                        .verify_union_variant::<::flatbuffers::ForwardsUOffset<ClientInfo>>(
-                            "MessageUnion::ClientInfo",
-                            pos,
-                        ),
-                    MessageUnion::TicketSale => v
-                        .verify_union_variant::<::flatbuffers::ForwardsUOffset<TicketSale>>(
-                            "MessageUnion::TicketSale",
-                            pos,
-                        ),
-                    MessageUnion::ResetTickets => v
-                        .verify_union_variant::<::flatbuffers::ForwardsUOffset<ResetTickets>>(
-                            "MessageUnion::ResetTickets",
-                            pos,
-                        ),
-                    MessageUnion::ScalperInfo => v
-                        .verify_union_variant::<::flatbuffers::ForwardsUOffset<ScalperInfo>>(
-                            "MessageUnion::ScalperInfo",
-                            pos,
-                        ),
-                    MessageUnion::HelloWorld => v
-                        .verify_union_variant::<::flatbuffers::ForwardsUOffset<HelloWorld>>(
-                            "MessageUnion::HelloWorld",
-                            pos,
-                        ),
-                    _ => Ok(()),
-                },
-            )?
-            .finish();
-        Ok(())
-    }
+  #[inline]
+  fn run_verifier(
+    v: &mut ::flatbuffers::Verifier, pos: usize
+  ) -> Result<(), ::flatbuffers::InvalidFlatbuffer> {
+    v.visit_table(pos)?
+     .visit_union::<MessageUnion, _>("data_type", Self::VT_DATA_TYPE, "data", Self::VT_DATA, false, |key, v, pos| {
+        match key {
+          MessageUnion::ClientInfo => v.verify_union_variant::<::flatbuffers::ForwardsUOffset<ClientInfo>>("MessageUnion::ClientInfo", pos),
+          MessageUnion::TicketSale => v.verify_union_variant::<::flatbuffers::ForwardsUOffset<TicketSale>>("MessageUnion::TicketSale", pos),
+          MessageUnion::ResetTickets => v.verify_union_variant::<::flatbuffers::ForwardsUOffset<ResetTickets>>("MessageUnion::ResetTickets", pos),
+          MessageUnion::ScalperInfo => v.verify_union_variant::<::flatbuffers::ForwardsUOffset<ScalperInfo>>("MessageUnion::ScalperInfo", pos),
+          MessageUnion::HelloWorld => v.verify_union_variant::<::flatbuffers::ForwardsUOffset<HelloWorld>>("MessageUnion::HelloWorld", pos),
+          _ => Ok(()),
+        }
+     })?
+     .finish();
+    Ok(())
+  }
 }
 pub struct RootTableArgs {
     pub data_type: MessageUnion,
     pub data: Option<::flatbuffers::WIPOffset<::flatbuffers::UnionWIPOffset>>,
 }
 impl<'a> Default for RootTableArgs {
-    #[inline]
-    fn default() -> Self {
-        RootTableArgs {
-            data_type: MessageUnion::NONE,
-            data: None,
-        }
+  #[inline]
+  fn default() -> Self {
+    RootTableArgs {
+      data_type: MessageUnion::NONE,
+      data: None,
     }
+  }
 }
 
 pub struct RootTableBuilder<'a: 'b, 'b, A: ::flatbuffers::Allocator + 'a> {
-    fbb_: &'b mut ::flatbuffers::FlatBufferBuilder<'a, A>,
-    start_: ::flatbuffers::WIPOffset<::flatbuffers::TableUnfinishedWIPOffset>,
+  fbb_: &'b mut ::flatbuffers::FlatBufferBuilder<'a, A>,
+  start_: ::flatbuffers::WIPOffset<::flatbuffers::TableUnfinishedWIPOffset>,
 }
 impl<'a: 'b, 'b, A: ::flatbuffers::Allocator + 'a> RootTableBuilder<'a, 'b, A> {
-    #[inline]
-    pub fn add_data_type(&mut self, data_type: MessageUnion) {
-        self.fbb_
-            .push_slot::<MessageUnion>(RootTable::VT_DATA_TYPE, data_type, MessageUnion::NONE);
+  #[inline]
+  pub fn add_data_type(&mut self, data_type: MessageUnion) {
+    self.fbb_.push_slot::<MessageUnion>(RootTable::VT_DATA_TYPE, data_type, MessageUnion::NONE);
+  }
+  #[inline]
+  pub fn add_data(&mut self, data: ::flatbuffers::WIPOffset<::flatbuffers::UnionWIPOffset>) {
+    self.fbb_.push_slot_always::<::flatbuffers::WIPOffset<_>>(RootTable::VT_DATA, data);
+  }
+  #[inline]
+  pub fn new(_fbb: &'b mut ::flatbuffers::FlatBufferBuilder<'a, A>) -> RootTableBuilder<'a, 'b, A> {
+    let start = _fbb.start_table();
+    RootTableBuilder {
+      fbb_: _fbb,
+      start_: start,
     }
-    #[inline]
-    pub fn add_data(&mut self, data: ::flatbuffers::WIPOffset<::flatbuffers::UnionWIPOffset>) {
-        self.fbb_
-            .push_slot_always::<::flatbuffers::WIPOffset<_>>(RootTable::VT_DATA, data);
-    }
-    #[inline]
-    pub fn new(
-        _fbb: &'b mut ::flatbuffers::FlatBufferBuilder<'a, A>,
-    ) -> RootTableBuilder<'a, 'b, A> {
-        let start = _fbb.start_table();
-        RootTableBuilder {
-            fbb_: _fbb,
-            start_: start,
-        }
-    }
-    #[inline]
-    pub fn finish(self) -> ::flatbuffers::WIPOffset<RootTable<'a>> {
-        let o = self.fbb_.end_table(self.start_);
-        ::flatbuffers::WIPOffset::new(o.value())
-    }
+  }
+  #[inline]
+  pub fn finish(self) -> ::flatbuffers::WIPOffset<RootTable<'a>> {
+    let o = self.fbb_.end_table(self.start_);
+    ::flatbuffers::WIPOffset::new(o.value())
+  }
 }
 
 impl ::core::fmt::Debug for RootTable<'_> {
-    fn fmt(&self, f: &mut ::core::fmt::Formatter<'_>) -> ::core::fmt::Result {
-        let mut ds = f.debug_struct("RootTable");
-        ds.field("data_type", &self.data_type());
-        match self.data_type() {
-            MessageUnion::ClientInfo => {
-                if let Some(x) = self.data_as_client_info() {
-                    ds.field("data", &x)
-                } else {
-                    ds.field(
-                        "data",
-                        &"InvalidFlatbuffer: Union discriminant does not match value.",
-                    )
-                }
-            }
-            MessageUnion::TicketSale => {
-                if let Some(x) = self.data_as_ticket_sale() {
-                    ds.field("data", &x)
-                } else {
-                    ds.field(
-                        "data",
-                        &"InvalidFlatbuffer: Union discriminant does not match value.",
-                    )
-                }
-            }
-            MessageUnion::ResetTickets => {
-                if let Some(x) = self.data_as_reset_tickets() {
-                    ds.field("data", &x)
-                } else {
-                    ds.field(
-                        "data",
-                        &"InvalidFlatbuffer: Union discriminant does not match value.",
-                    )
-                }
-            }
-            MessageUnion::ScalperInfo => {
-                if let Some(x) = self.data_as_scalper_info() {
-                    ds.field("data", &x)
-                } else {
-                    ds.field(
-                        "data",
-                        &"InvalidFlatbuffer: Union discriminant does not match value.",
-                    )
-                }
-            }
-            MessageUnion::HelloWorld => {
-                if let Some(x) = self.data_as_hello_world() {
-                    ds.field("data", &x)
-                } else {
-                    ds.field(
-                        "data",
-                        &"InvalidFlatbuffer: Union discriminant does not match value.",
-                    )
-                }
-            }
-            _ => {
-                let x: Option<()> = None;
-                ds.field("data", &x)
-            }
-        };
-        ds.finish()
-    }
+  fn fmt(&self, f: &mut ::core::fmt::Formatter<'_>) -> ::core::fmt::Result {
+    let mut ds = f.debug_struct("RootTable");
+      ds.field("data_type", &self.data_type());
+      match self.data_type() {
+        MessageUnion::ClientInfo => {
+          if let Some(x) = self.data_as_client_info() {
+            ds.field("data", &x)
+          } else {
+            ds.field("data", &"InvalidFlatbuffer: Union discriminant does not match value.")
+          }
+        },
+        MessageUnion::TicketSale => {
+          if let Some(x) = self.data_as_ticket_sale() {
+            ds.field("data", &x)
+          } else {
+            ds.field("data", &"InvalidFlatbuffer: Union discriminant does not match value.")
+          }
+        },
+        MessageUnion::ResetTickets => {
+          if let Some(x) = self.data_as_reset_tickets() {
+            ds.field("data", &x)
+          } else {
+            ds.field("data", &"InvalidFlatbuffer: Union discriminant does not match value.")
+          }
+        },
+        MessageUnion::ScalperInfo => {
+          if let Some(x) = self.data_as_scalper_info() {
+            ds.field("data", &x)
+          } else {
+            ds.field("data", &"InvalidFlatbuffer: Union discriminant does not match value.")
+          }
+        },
+        MessageUnion::HelloWorld => {
+          if let Some(x) = self.data_as_hello_world() {
+            ds.field("data", &x)
+          } else {
+            ds.field("data", &"InvalidFlatbuffer: Union discriminant does not match value.")
+          }
+        },
+        _ => {
+          let x: Option<()> = None;
+          ds.field("data", &x)
+        },
+      };
+      ds.finish()
+  }
 }
