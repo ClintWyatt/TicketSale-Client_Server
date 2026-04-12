@@ -7,3 +7,4 @@ edition = "2024"
 libs = { version = "0.1.0", path = "../libs" }
 log = "0.4.29"
 zmq = "0.10.0"
+local-ip-address = "0.6"

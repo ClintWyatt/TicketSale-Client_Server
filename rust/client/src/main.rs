@@ -1,4 +1,31 @@
+mod client;
+
+use client::Client;
+use local_ip_address::local_ip;
 use log::{info};
+
+/*
+Client class methods:
+1. Send request to server
+2. Receive response from server
+3. Send own info to Observer for other clients to go to when buying 
+tickets from other clients
+
+Request types:
+1. buy tickets from server
+2. sell tickets to server
+3. Send ip adress and port information to observer (upon start)
+4. buy tikets from other client witn provided information from observer
+5. Notify observer of leaving (no longer buying tickets)
+
+Response types:
+1. Acknowledge buying ticket from server via provide money for ticket
+2. Acknowledge result of buying ticket from scalper (other client if available):
+    if successful, send buying request to server
+    if unsuccessful, sell own ticket to server
+3. If no scalper availabe and not enough funds, then sell ticket to server
+
+*/
 
 fn main() {
     let context = zmq::Context::new();
@@ -21,6 +48,7 @@ fn main() {
 
     //let mut msg = zmq::Message::new();
     let mut buffer: Vec<u8> = Vec::new();
+    let mut current_money = 4000;
 
     for request_numb in 1..=10 {
         if request_numb < 2 {
